@@ -3,7 +3,11 @@
 
 int main() {
     Player player;
-    PlayerManager player_manager(player);
+    Playground playground(18, 1);
+
+    PlayerManager player_manager(player, playground);
+
+    playground.print_map();
 
     return 0;
 }

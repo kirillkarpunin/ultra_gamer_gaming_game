@@ -2,7 +2,9 @@
 #define OOP_PLAYER_MANAGER_H
 
 #include <utility>
+
 #include "Player.h"
+#include "Playground.h"
 
 
 enum direction {right, down, left, up};
@@ -11,22 +13,29 @@ class PlayerManager {
 private:
     std::pair<int, int> position;
     Player& player;
-    // this class will get an instance of 'playground' class, so it will get access to every cell of the field and to size of the field
+    Playground& playground;
 public:
-    explicit PlayerManager(Player& player_);
+    PlayerManager(Player& player_, Playground& playground_);
     ~PlayerManager();
 
     void take_damage(int taken_damage);
+    void use_bomb();
 
     void heal(int health_healed);
     void raise_shield();
     void upgrade_weapon();
+    void pick_up_bomb();
 
     bool is_defeated() const;
 
+    bool is_full_shield() const;
+    bool is_fully_upgraded_weapon() const;
+    bool is_full_health() const;
+    bool is_full_bombs() const;
+
     void move(direction dir);
 
-    std::pair<int, int> get_position() const;
+    std::pair<int, int>& get_position();
 };
 
 

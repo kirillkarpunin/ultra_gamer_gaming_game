@@ -7,4 +7,8 @@ add_executable(oop Main.cpp
         Player.cpp
         Player.h
         Player-Manager.cpp
-        Player-Manager.h)
+        Player-Manager.h
+        Cell.cpp
+        Cell.h
+        Playground.cpp
+        Playground.h)

@@ -1,12 +1,10 @@
+#include <algorithm>
+
 #include "Player-Manager.h"
 
+
 void PlayerManager::take_damage(int taken_damage) {
-    if (taken_damage > MAX_HEALTH+MAX_SHIELD){
-        taken_damage = MAX_HEALTH+MAX_SHIELD;
-    }
-    if (taken_damage < 0){
-        taken_damage = 0;
-    }
+    taken_damage = std::clamp(taken_damage, 0, MAX_HEALTH+MAX_SHIELD);
 
     if (player.get_armor() >= taken_damage){
         player.set_armor(player.get_armor() - taken_damage);
@@ -21,13 +19,14 @@ void PlayerManager::take_damage(int taken_damage) {
     }
 }
 
+void PlayerManager::use_bomb() {
+    if (player.get_bombs()) {
+        player.set_bombs(player.get_bombs() - 1);
+    }
+}
+
 void PlayerManager::heal(int health_healed) {
-    if (health_healed > MAX_HEALTH){
-        health_healed = MAX_HEALTH;
-    }
-    if (health_healed < 0){
-        health_healed = 0;
-    }
+    health_healed = std::clamp(health_healed, 0, MAX_HEALTH);
 
     player.set_health(player.get_health() + health_healed);
     if (player.get_health() > MAX_HEALTH){
@@ -44,29 +43,63 @@ void PlayerManager::upgrade_weapon() {
     if (player.get_damage() > MAX_DAMAGE){
         player.set_damage(MAX_DAMAGE);
     }
+
+}
+
+void PlayerManager::pick_up_bomb() {
+    player.set_bombs(player.get_bombs() + 1);
+    if (player.get_bombs() > MAX_BOMBS){
+        player.set_bombs(MAX_BOMBS);
+    }
 }
 
 bool PlayerManager::is_defeated() const{
     return player.get_health() == 0;
 }
 
+bool PlayerManager::is_full_health() const {
+    return player.get_health() == MAX_HEALTH;
+}
+
+bool PlayerManager::is_full_shield() const {
+    return player.get_armor() == MAX_SHIELD;
+}
+
+bool PlayerManager::is_fully_upgraded_weapon() const {
+    return player.get_damage() == MAX_DAMAGE;
+}
+
+bool PlayerManager::is_full_bombs() const {
+    return player.get_bombs() == MAX_BOMBS;
+}
+
 void PlayerManager::move(direction dir) {
     switch (dir) {
         case right:
         {
-            position.first++;
+            if (position.first < playground.get_size().first - 1 &&
+                playground.get_cell_type_by_coords(position.first + 1, position.second) != obstacle)
+            {
+                position.first++;
+            }
             break;
         }
 
         case down:
         {
-            position.second++;
+            if (position.second < playground.get_size().second - 1 &&
+                playground.get_cell_type_by_coords(position.first, position.second + 1) != obstacle)
+            {
+                position.second++;
+            }
             break;
         }
 
         case left:
         {
-            if (position.first > 0){
+            if (position.first > 0 &&
+                playground.get_cell_type_by_coords(position.first - 1, position.second) != obstacle)
+            {
                 position.first--;
             }
             break;
@@ -74,7 +107,9 @@ void PlayerManager::move(direction dir) {
 
         case up:
         {
-            if (position.second > 0){
+            if (position.second > 0 &&
+                playground.get_cell_type_by_coords(position.first, position.second - 1) != obstacle)
+            {
                 position.second--;
             }
             break;
@@ -84,11 +119,10 @@ void PlayerManager::move(direction dir) {
 }
 
 
-std::pair<int, int> PlayerManager::get_position() const{
+std::pair<int, int>& PlayerManager::get_position(){
     return position;
 }
 
+PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_) {}
 
-//
-PlayerManager::PlayerManager(Player &player_): position({0, 0}), player(player_){}
 PlayerManager::~PlayerManager() = default;
