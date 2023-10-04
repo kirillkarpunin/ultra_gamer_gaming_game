@@ -13,12 +13,21 @@ private:
     std::pair<int, int> exit_point;
 
     void create_map();
+    void create_objects_on_map(cell_types type, int n);
+
 public:
     Playground(int width = 4, int height = 4);
     ~Playground();
 
-    void print_map();
-    cell_types get_cell_type_by_coords(int x, int y);
+    Playground(const Playground& playground);
+    Playground& operator = (const Playground& playground);
+
+    Playground(Playground&& playground);
+    Playground& operator = (Playground&& playground);
+
+    void print_map() const;
+    cell_types get_cell_type_by_coords(std::pair<int, int> coords);
+    void change_cell_type_by_coords(std::pair<int, int> coords, cell_types type);
     std::pair<int, int>& get_size();
 };
 

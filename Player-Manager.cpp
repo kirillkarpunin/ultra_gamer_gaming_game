@@ -78,9 +78,12 @@ void PlayerManager::move(direction dir) {
         case right:
         {
             if (position.first < playground.get_size().first - 1 &&
-                playground.get_cell_type_by_coords(position.first + 1, position.second) != obstacle)
+                playground.get_cell_type_by_coords({position.first + 1, position.second}) != obstacle)
             {
+                playground.change_cell_type_by_coords(position, current_cell_type);
                 position.first++;
+                current_cell_type = playground.get_cell_type_by_coords(position);
+                playground.change_cell_type_by_coords(position, player_);
             }
             break;
         }
@@ -88,9 +91,12 @@ void PlayerManager::move(direction dir) {
         case down:
         {
             if (position.second < playground.get_size().second - 1 &&
-                playground.get_cell_type_by_coords(position.first, position.second + 1) != obstacle)
+                playground.get_cell_type_by_coords({position.first, position.second + 1}) != obstacle)
             {
+                playground.change_cell_type_by_coords(position, current_cell_type);
                 position.second++;
+                current_cell_type = playground.get_cell_type_by_coords(position);
+                playground.change_cell_type_by_coords(position, player_);
             }
             break;
         }
@@ -98,9 +104,12 @@ void PlayerManager::move(direction dir) {
         case left:
         {
             if (position.first > 0 &&
-                playground.get_cell_type_by_coords(position.first - 1, position.second) != obstacle)
+                playground.get_cell_type_by_coords({position.first - 1, position.second}) != obstacle)
             {
+                playground.change_cell_type_by_coords(position, current_cell_type);
                 position.first--;
+                current_cell_type = playground.get_cell_type_by_coords(position);
+                playground.change_cell_type_by_coords(position, player_);
             }
             break;
         }
@@ -108,9 +117,12 @@ void PlayerManager::move(direction dir) {
         case up:
         {
             if (position.second > 0 &&
-                playground.get_cell_type_by_coords(position.first, position.second - 1) != obstacle)
+                playground.get_cell_type_by_coords({position.first, position.second - 1}) != obstacle)
             {
+                playground.change_cell_type_by_coords(position, current_cell_type);
                 position.second--;
+                current_cell_type = playground.get_cell_type_by_coords(position);
+                playground.change_cell_type_by_coords(position, player_);
             }
             break;
         }
@@ -123,6 +135,6 @@ std::pair<int, int>& PlayerManager::get_position(){
     return position;
 }
 
-PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_) {}
+PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_), current_cell_type(entrance) {}
 
 PlayerManager::~PlayerManager() = default;

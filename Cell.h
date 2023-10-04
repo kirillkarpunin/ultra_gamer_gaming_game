@@ -1,7 +1,7 @@
 #ifndef OOP_CELL_H
 #define OOP_CELL_H
 
-enum cell_types{empty, obstacle, trap, chest, entrance, exit_};
+enum cell_types{empty, obstacle, trap, chest, entrance, exit_, player_};
 
 class Cell {
 private:
