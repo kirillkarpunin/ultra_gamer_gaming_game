@@ -14,7 +14,6 @@ private:
     std::pair<int, int> position;
     Player& player;
     Playground& playground;
-    cell_types current_cell_type;
 public:
     PlayerManager(Player& player_, Playground& playground_);
     ~PlayerManager();

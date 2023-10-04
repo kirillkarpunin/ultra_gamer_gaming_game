@@ -23,7 +23,7 @@ void Playground::create_objects_on_map(cell_types type, int n){
 }
 
 void Playground::create_map(){
-    map[entrance_point.second][entrance_point.first].set_cell_type(player_);
+    map[entrance_point.second][entrance_point.first].set_cell_type(entrance);
     map[exit_point.second][exit_point.first].set_cell_type(exit_);
 
     srand(clock());
@@ -47,6 +47,7 @@ void Playground::create_map(){
 
     create_objects_on_map(trap, (int)sqrt(playground_size.first * playground_size.second) / 4);
     create_objects_on_map(chest, (int)sqrt(playground_size.first * playground_size.second) / 4);
+    create_objects_on_map(portal, 2);
 }
 
 void Playground::print_map() const{
@@ -80,8 +81,8 @@ void Playground::print_map() const{
                     std::cout << "x ";
                     break;
                 }
-                case player_: {
-                    std::cout << "@ ";
+                case portal: {
+                    std::cout << "% ";
                     break;
                 }
             }
