@@ -4,11 +4,11 @@ project(oop)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(oop Main.cpp
-        Player.cpp
-        Player.h
-        Player-Manager.cpp
-        Player-Manager.h
-        Cell.cpp
-        Cell.h
-        Playground.cpp
-        Playground.h)
+        entities/player/Player.cpp
+        entities/player/Player.h
+        entities/player/Player-Manager.cpp
+        entities/player/Player-Manager.h
+        world/Cell.cpp
+        world/Cell.h
+        world/Playground.cpp
+        world/Playground.h)

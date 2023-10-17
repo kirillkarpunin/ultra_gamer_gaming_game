@@ -1,10 +1,10 @@
-#include "Player-Manager.h"
+#include "entities/player/Player-Manager.h"
 #include <iostream>
 
 int main() {
+    Playground playground(20, 10);
     Player player;
-    Playground playground(100, 100);
-    PlayerManager manager(player, playground);
+    PlayerManager player_manager(player, playground);
 
     playground.print_map();
 

@@ -1,10 +1,10 @@
 #include "Cell.h"
 
-cell_types Cell::get_cell_type() const {
+cell_types Cell::get_type() const {
     return type;
 }
 
-void Cell::set_cell_type(cell_types cell_type) {
+void Cell::set_type(cell_types cell_type) {
     type = cell_type;
 }
 

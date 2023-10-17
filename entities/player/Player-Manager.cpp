@@ -78,7 +78,7 @@ void PlayerManager::move(direction dir) {
         case right:
         {
             if (position.first < playground.get_size().first - 1 &&
-                playground.get_cell_type_by_coords({position.first + 1, position.second}) != obstacle)
+                playground.get_cell_type({position.first + 1, position.second}) != obstacle)
             {
                 position.first++;
             }
@@ -88,7 +88,7 @@ void PlayerManager::move(direction dir) {
         case down:
         {
             if (position.second < playground.get_size().second - 1 &&
-                playground.get_cell_type_by_coords({position.first, position.second + 1}) != obstacle)
+                playground.get_cell_type({position.first, position.second + 1}) != obstacle)
             {
                 position.second++;
             }
@@ -98,7 +98,7 @@ void PlayerManager::move(direction dir) {
         case left:
         {
             if (position.first > 0 &&
-                playground.get_cell_type_by_coords({position.first - 1, position.second}) != obstacle)
+                playground.get_cell_type({position.first - 1, position.second}) != obstacle)
             {
                 position.first--;
             }
@@ -108,7 +108,7 @@ void PlayerManager::move(direction dir) {
         case up:
         {
             if (position.second > 0 &&
-                playground.get_cell_type_by_coords({position.first, position.second - 1}) != obstacle)
+                playground.get_cell_type({position.first, position.second - 1}) != obstacle)
             {
                 position.second--;
             }

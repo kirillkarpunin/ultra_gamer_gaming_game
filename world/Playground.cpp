@@ -12,19 +12,19 @@ void Playground::create_objects_on_map(cell_types type, int n){
     {
         int x_ = rand() % playground_size.first;
         int y_ = rand() % playground_size.second;
-        if (map[y_][x_].get_cell_type() != empty){
+        if (map[y_][x_].get_type() != empty){
             i--;
             continue;
         }
         else {
-            map[y_][x_].set_cell_type(type);
+            map[y_][x_].set_type(type);
         }
     }
 }
 
 void Playground::create_map(){
-    map[entrance_point.second][entrance_point.first].set_cell_type(entrance);
-    map[exit_point.second][exit_point.first].set_cell_type(exit_);
+    map[entrance_point.second][entrance_point.first].set_type(entrance);
+    map[exit_point.second][exit_point.first].set_type(exit_);
 
     srand(clock());
 
@@ -35,11 +35,11 @@ void Playground::create_map(){
     {
         for (int j = 1 * second_path; j < playground_size.first - 1 * first_path; j++)
         {
-            if (map[i][j].get_cell_type() == empty)
+            if (map[i][j].get_type() == empty)
             {
                 if ( rand() % 100 + 1 > (100 - OBSTACLE_CHANCE) )
                 {
-                    map[i][j].set_cell_type(obstacle);
+                    map[i][j].set_type(obstacle);
                 }
             }
         }
@@ -55,7 +55,7 @@ void Playground::print_map() const{
     {
         for (int j = 0; j < playground_size.first; j++)
         {
-            switch (map[i][j].get_cell_type())
+            switch (map[i][j].get_type())
             {
                 case empty: {
                     std::cout << ". ";
@@ -91,21 +91,27 @@ void Playground::print_map() const{
     }
 }
 
-cell_types Playground::get_cell_type_by_coords(std::pair<int, int> coords){
-    return map[coords.second][coords.first].get_cell_type();
+cell_types Playground::get_cell_type(std::pair<int, int> coords){
+    int x = std::clamp(coords.first, 0, playground_size.first-1);
+    int y = std::clamp(coords.second, 0, playground_size.second-1);
+
+    return map[y][x].get_type();
 }
 
-void Playground::change_cell_type_by_coords(std::pair<int, int> coords, cell_types type) {
-    map[coords.second][coords.first].set_cell_type(type);
+void Playground::set_cell_type(std::pair<int, int> coords, cell_types type) {
+    int x = std::clamp(coords.first, 0, playground_size.first-1);
+    int y = std::clamp(coords.second, 0, playground_size.second-1);
+
+    map[y][x].set_type(type);
 }
 
-std::pair<int, int>& Playground::get_size(){
+std::pair<int, int> Playground::get_size(){
     return playground_size;
 }
 
 Playground::Playground(int width, int height) {
-    width = std::clamp(width, 4, 64);
-    height = std::clamp(height, 4, 64);
+    width = std::clamp(width, 10, 64);
+    height = std::clamp(height, 10, 64);
 
     playground_size = {width, height};
 

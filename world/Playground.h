@@ -16,7 +16,7 @@ private:
     void create_objects_on_map(cell_types type, int n);
 
 public:
-    Playground(int width = 4, int height = 4);
+    Playground(int width = 10, int height = 10);
     ~Playground();
 
     Playground(const Playground& playground);
@@ -26,9 +26,9 @@ public:
     Playground& operator = (Playground&& playground);
 
     void print_map() const;
-    cell_types get_cell_type_by_coords(std::pair<int, int> coords);
-    void change_cell_type_by_coords(std::pair<int, int> coords, cell_types type);
-    std::pair<int, int>& get_size();
+    cell_types get_cell_type(std::pair<int, int> coords);
+    void set_cell_type(std::pair<int, int> coords, cell_types type);
+    std::pair<int, int> get_size();
 };
 
 
