@@ -4,10 +4,10 @@
 #include <utility>
 
 #include "Player.h"
-#include "../../world/Playground.h"
+#include "../../world/map/Playground.h"
 
 
-enum direction {right, down, left, up};
+enum direction {right, down, left, up, none};
 
 class PlayerManager {
 private:
@@ -32,6 +32,11 @@ public:
     bool is_fully_upgraded_weapon() const;
     bool is_full_health() const;
     bool is_full_bombs() const;
+
+    int get_health() const;
+    int get_armor() const;
+    int get_damage() const;
+    int get_bombs() const;
 
     void move(direction dir);
 

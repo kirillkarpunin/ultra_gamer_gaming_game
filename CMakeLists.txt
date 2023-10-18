@@ -8,7 +8,11 @@ add_executable(oop Main.cpp
         entities/player/Player.h
         entities/player/Player-Manager.cpp
         entities/player/Player-Manager.h
-        world/Cell.cpp
-        world/Cell.h
-        world/Playground.cpp
-        world/Playground.h)
+        world/map/Cell.cpp
+        world/map/Cell.h
+        world/map/Playground.cpp
+        world/map/Playground.h
+        world/map/MapGenerator.cpp
+        world/map/MapGenerator.h
+        input_output/Renderer.cpp
+        input_output/Renderer.h)

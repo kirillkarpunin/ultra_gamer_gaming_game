@@ -114,13 +114,34 @@ void PlayerManager::move(direction dir) {
             }
             break;
         }
+
+        case none:
+            break;
+
+
     }
+
     // position checks will be added later (obstacles, enemies, etc)
 }
 
-
 std::pair<int, int>& PlayerManager::get_position(){
     return position;
+}
+
+int PlayerManager::get_health() const{
+    return player.get_health();
+}
+
+int PlayerManager::get_armor() const{
+    return player.get_armor();
+}
+
+int PlayerManager::get_damage() const{
+    return player.get_damage();
+}
+
+int PlayerManager::get_bombs() const {
+    return player.get_bombs();
 }
 
 PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_) {}
