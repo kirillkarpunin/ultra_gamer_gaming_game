@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef OOP_PLAYGROUND_H
 #define OOP_PLAYGROUND_H
 
@@ -9,8 +11,11 @@
 #define DEF_MAP_HEIGHT 15
 #define MAX_MAP_HEIGHT 64
 
+
+class Playground;
 #include <utility>
 #include "Cell.h"
+
 
 class Playground {
 private:
@@ -31,6 +36,8 @@ public:
     Playground& operator = (Playground&& playground);
 
     cell_types get_cell_type(std::pair<int, int> position);
+    IEvent* get_cell_event(std::pair<int, int> position);
+
     void set_cell_type(std::pair<int, int> position, cell_types type);
     std::pair<int, int> get_size();
 

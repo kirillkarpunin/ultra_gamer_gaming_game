@@ -2,10 +2,11 @@
 #define OOP_PLAYER_MANAGER_H
 
 #include <utility>
+#include <algorithm>
 
+class PlayerManager;
 #include "Player.h"
 #include "../../world/map/Playground.h"
-
 
 enum direction {right, down, left, up, none};
 
@@ -19,12 +20,14 @@ public:
     ~PlayerManager();
 
     void take_damage(int taken_damage);
-    void use_bomb();
-
     void heal(int health_healed);
+
     void raise_shield();
+
     void upgrade_weapon();
-    void pick_up_bomb();
+
+    void use_bomb();
+    void pick_up_bombs(int bombs);
 
     bool is_defeated() const;
 

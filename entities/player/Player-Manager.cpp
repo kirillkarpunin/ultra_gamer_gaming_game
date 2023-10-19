@@ -1,5 +1,3 @@
-#include <algorithm>
-
 #include "Player-Manager.h"
 
 
@@ -43,11 +41,10 @@ void PlayerManager::upgrade_weapon() {
     if (player.get_damage() > MAX_DAMAGE){
         player.set_damage(MAX_DAMAGE);
     }
-
 }
 
-void PlayerManager::pick_up_bomb() {
-    player.set_bombs(player.get_bombs() + 1);
+void PlayerManager::pick_up_bombs(int bombs) {
+    player.set_bombs(player.get_bombs() + bombs);
     if (player.get_bombs() > MAX_BOMBS){
         player.set_bombs(MAX_BOMBS);
     }
@@ -77,40 +74,64 @@ void PlayerManager::move(direction dir) {
     switch (dir) {
         case right:
         {
-            if (position.first < playground.get_size().first - 1 &&
-                playground.get_cell_type({position.first + 1, position.second}) != obstacle)
+            if (position.first < playground.get_size().first - 1)
             {
-                position.first++;
+                if (playground.get_cell_type({position.first + 1, position.second}) != obstacle){
+                    position.first++;
+                }
+                else if (get_bombs() != 0){
+                    use_bomb();
+                    position.first++;
+                    playground.set_cell_type(position, empty);
+                }
             }
             break;
         }
 
         case down:
         {
-            if (position.second < playground.get_size().second - 1 &&
-                playground.get_cell_type({position.first, position.second + 1}) != obstacle)
+            if (position.second < playground.get_size().second - 1)
             {
-                position.second++;
+                if (playground.get_cell_type({position.first, position.second + 1}) != obstacle){
+                    position.second++;
+                }
+                else if (get_bombs() != 0){
+                    use_bomb();
+                    position.second++;
+                    playground.set_cell_type(position, empty);
+                }
             }
             break;
         }
 
         case left:
         {
-            if (position.first > 0 &&
-                playground.get_cell_type({position.first - 1, position.second}) != obstacle)
+            if (position.first > 0)
             {
-                position.first--;
+                if (playground.get_cell_type({position.first - 1, position.second}) != obstacle){
+                    position.first--;
+                }
+                else if (get_bombs() != 0){
+                    use_bomb();
+                    position.first--;
+                    playground.set_cell_type(position, empty);
+                }
             }
             break;
         }
 
         case up:
         {
-            if (position.second > 0 &&
-                playground.get_cell_type({position.first, position.second - 1}) != obstacle)
+            if (position.second > 0)
             {
-                position.second--;
+                if (playground.get_cell_type({position.first, position.second - 1}) != obstacle){
+                    position.second--;
+                }
+                else if (get_bombs() != 0){
+                    use_bomb();
+                    position.second--;
+                    playground.set_cell_type(position, empty);
+                }
             }
             break;
         }
@@ -121,7 +142,9 @@ void PlayerManager::move(direction dir) {
 
     }
 
-    // position checks will be added later (obstacles, enemies, etc)
+    if (playground.get_cell_event(position) != nullptr){
+        playground.get_cell_event(position)->perform(*this);
+    }
 }
 
 std::pair<int, int>& PlayerManager::get_position(){

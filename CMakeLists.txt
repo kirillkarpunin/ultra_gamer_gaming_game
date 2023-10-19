@@ -15,4 +15,9 @@ add_executable(oop Main.cpp
         world/map/MapGenerator.cpp
         world/map/MapGenerator.h
         input_output/Renderer.cpp
-        input_output/Renderer.h)
+        input_output/Renderer.h
+        world/events/IEvent.h
+        world/events/Trap.cpp
+        world/events/Trap.h
+        world/events/Chest.cpp
+        world/events/Chest.h)

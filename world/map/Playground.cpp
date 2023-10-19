@@ -10,6 +10,13 @@ cell_types Playground::get_cell_type(std::pair<int, int> position){
     return map[y][x].get_type();
 }
 
+IEvent* Playground::get_cell_event(std::pair<int, int> position) {
+    int x = std::clamp(position.first, 0, playground_size.first-1);
+    int y = std::clamp(position.second, 0, playground_size.second-1);
+
+    return map[y][x].get_event();
+}
+
 void Playground::set_cell_type(std::pair<int, int> position, cell_types type) {
     int x = std::clamp(position.first, 0, playground_size.first-1);
     int y = std::clamp(position.second, 0, playground_size.second-1);

@@ -18,7 +18,7 @@ int main() {
     generator.generate();
 
     bool game = true;
-    while(game) {
+    while(game && !player_manager.is_defeated()) {
 
         system("clear");
         renderer.print_logo();
