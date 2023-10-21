@@ -5,6 +5,7 @@
 
 #include <random>
 #include <ctime>
+#include <algorithm>
 #include "Playground.h"
 
 class MapGenerator {

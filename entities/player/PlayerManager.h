@@ -1,10 +1,9 @@
-#ifndef OOP_PLAYER_MANAGER_H
-#define OOP_PLAYER_MANAGER_H
+#ifndef OOP_PLAYERMANAGER_H
+#define OOP_PLAYERMANAGER_H
 
 #include <utility>
 #include <algorithm>
 
-class PlayerManager;
 #include "Player.h"
 #include "../../world/map/Playground.h"
 
@@ -42,9 +41,11 @@ public:
     int get_bombs() const;
 
     void move(direction dir);
+    void perform_cell_event();
 
     std::pair<int, int>& get_position();
+    void set_position(std::pair<int, int> position_);
 };
 
 
-#endif //OOP_PLAYER_MANAGER_H
+#endif //OOP_PLAYERMANAGER_H

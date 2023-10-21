@@ -13,7 +13,7 @@ public:
     Chest();
     ~Chest();
 
-    void perform(PlayerManager& player_manager) final;
+    void perform(PlayerManager& player_manager, Playground& playground) final;
 };
 
 

@@ -12,9 +12,9 @@
 #define MAX_MAP_HEIGHT 64
 
 
-class Playground;
 #include <utility>
 #include "Cell.h"
+#include "../../sup/circular_linked_list/CircularLinkedList.h"
 
 
 class Playground {
@@ -24,6 +24,8 @@ private:
 
     std::pair<int, int> entrance_point;
     std::pair<int, int> exit_point;
+
+    CircularLinkedList portals;
 
 public:
     Playground(int width = DEF_MAP_WIDTH, int height = DEF_MAP_HEIGHT);
@@ -43,6 +45,8 @@ public:
 
     std::pair<int, int> get_entrance_point();
     std::pair<int, int> get_exit_point();
+
+    CircularLinkedList& get_portals();
 };
 
 

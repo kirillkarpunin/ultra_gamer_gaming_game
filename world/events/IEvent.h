@@ -1,18 +1,15 @@
-#pragma once
-
 #ifndef OOP_IEVENT_H
 #define OOP_IEVENT_H
 
-class IEvent;
-#include "../../entities/player/Player-Manager.h"
-
+class PlayerManager;
+class Playground;
 
 class IEvent {
 public:
-    virtual void perform(PlayerManager& player_manager) = 0;
-    virtual ~IEvent() {};
+    virtual void perform(PlayerManager& player_manager, Playground& playground) = 0;
+
+    virtual ~IEvent() = default;
 };
-//IEvent::~IEvent() {}
 
 
 #endif //OOP_IEVENT_H

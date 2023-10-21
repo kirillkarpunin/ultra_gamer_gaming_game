@@ -10,7 +10,7 @@ public:
     Trap();
     ~Trap();
 
-    void perform(PlayerManager& player_manager) final;
+    void perform(PlayerManager& player_manager, Playground& playground) final;
 };
 
 

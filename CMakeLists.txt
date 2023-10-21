@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(oop Main.cpp
         entities/player/Player.cpp
         entities/player/Player.h
-        entities/player/Player-Manager.cpp
-        entities/player/Player-Manager.h
+        entities/player/PlayerManager.cpp
+        entities/player/PlayerManager.h
         world/map/Cell.cpp
         world/map/Cell.h
         world/map/Playground.cpp
@@ -20,4 +20,12 @@ add_executable(oop Main.cpp
         world/events/Trap.cpp
         world/events/Trap.h
         world/events/Chest.cpp
-        world/events/Chest.h)
+        world/events/Chest.h
+        world/events/ExplodeWall.cpp
+        world/events/ExplodeWall.h
+        world/events/Teleport.cpp
+        world/events/Teleport.h
+        sup/circular_linked_list/CircularLinkedList.cpp
+        sup/circular_linked_list/CircularLinkedList.h
+        sup/circular_linked_list/Node.cpp
+        sup/circular_linked_list/Node.h)

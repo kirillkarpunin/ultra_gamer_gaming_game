@@ -1,11 +1,13 @@
 #ifndef OOP_CELL_H
 #define OOP_CELL_H
 
-class Cell;
-enum cell_types{empty, obstacle, trap, chest, portal, entrance, exit_};
 
 #include "../events/Trap.h"
 #include "../events/Chest.h"
+#include "../events/ExplodeWall.h"
+#include "../events/Teleport.h"
+
+enum cell_types{empty, obstacle, trap, chest, portal, entrance, exit_};
 
 class Cell {
 private:

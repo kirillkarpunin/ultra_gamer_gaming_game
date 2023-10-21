@@ -1,8 +1,9 @@
 #include "Chest.h"
+#include "../../entities/player/PlayerManager.h"
 
 enum goods {potion, shield, bombs, grindstone};
 
-void Chest::perform(PlayerManager &player_manager) {
+void Chest::perform(PlayerManager &player_manager, Playground& playground) {
     goods chest[4];
     int n = 0;
 
@@ -38,6 +39,8 @@ void Chest::perform(PlayerManager &player_manager) {
             player_manager.pick_up_bombs(BOMBS);
             break;
     }
+
+    playground.set_cell_type(player_manager.get_position(), empty);
 }
 
 Chest::Chest() = default;

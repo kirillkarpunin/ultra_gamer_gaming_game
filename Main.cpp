@@ -1,4 +1,4 @@
-#include "entities/player/Player-Manager.h"
+#include "entities/player/PlayerManager.h"
 #include "world/map/MapGenerator.h"
 #include "input_output/Renderer.h"
 
@@ -9,6 +9,7 @@
 
 int main() {
     Playground playground;
+    
     Player player;
 
     MapGenerator generator(playground);
@@ -17,8 +18,9 @@ int main() {
 
     generator.generate();
 
+
     bool game = true;
-    while(game && !player_manager.is_defeated()) {
+    while(game && !player_manager.is_defeated() && player_manager.get_position() != playground.get_exit_point()) {
 
         system("clear");
         renderer.print_logo();
@@ -50,6 +52,17 @@ int main() {
                 break;
 
         }
+    }
+    system("clear");
+
+    if (player_manager.is_defeated()){
+        renderer.defeat_end();
+    }
+    else if (player_manager.get_position() == playground.get_exit_point()){
+        renderer.victory_end();
+    }
+    else {
+        renderer.escape_end();
     }
 
     return 0;

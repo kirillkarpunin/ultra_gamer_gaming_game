@@ -1,6 +1,8 @@
 #include "MapGenerator.h"
 
 void MapGenerator::create_objects(cell_types type, int n){
+    n = std::clamp(n, 0, (int)sqrt(playground.get_size().first * playground.get_size().second) / 2);
+
     for (int i = 0; i < n; i++)
     {
         int x_ = rand() % playground.get_size().first;
@@ -10,6 +12,9 @@ void MapGenerator::create_objects(cell_types type, int n){
             continue;
         }
         else {
+            if (type == portal){
+                playground.get_portals().add({x_,y_});
+            }
             playground.set_cell_type({x_, y_}, type);
         }
     }
@@ -40,7 +45,7 @@ void MapGenerator::generate(){
 
     create_objects(trap, (int)sqrt(playground.get_size().first * playground.get_size().second) / 4);
     create_objects(chest, (int)sqrt(playground.get_size().first * playground.get_size().second) / 8);
-    create_objects(portal, 2);
+    create_objects(portal, (int)sqrt(playground.get_size().first * playground.get_size().second) / 6);
 }
 
 MapGenerator::MapGenerator(Playground& playground_): playground(playground_) {}

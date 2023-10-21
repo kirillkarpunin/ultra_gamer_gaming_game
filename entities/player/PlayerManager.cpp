@@ -1,4 +1,4 @@
-#include "Player-Manager.h"
+#include "PlayerManager.h"
 
 
 void PlayerManager::take_damage(int taken_damage) {
@@ -80,9 +80,9 @@ void PlayerManager::move(direction dir) {
                     position.first++;
                 }
                 else if (get_bombs() != 0){
-                    use_bomb();
                     position.first++;
-                    playground.set_cell_type(position, empty);
+                    perform_cell_event();
+                    position.first--;
                 }
             }
             break;
@@ -96,9 +96,9 @@ void PlayerManager::move(direction dir) {
                     position.second++;
                 }
                 else if (get_bombs() != 0){
-                    use_bomb();
                     position.second++;
-                    playground.set_cell_type(position, empty);
+                    perform_cell_event();
+                    position.second--;
                 }
             }
             break;
@@ -112,9 +112,9 @@ void PlayerManager::move(direction dir) {
                     position.first--;
                 }
                 else if (get_bombs() != 0){
-                    use_bomb();
                     position.first--;
-                    playground.set_cell_type(position, empty);
+                    perform_cell_event();
+                    position.first++;
                 }
             }
             break;
@@ -128,9 +128,9 @@ void PlayerManager::move(direction dir) {
                     position.second--;
                 }
                 else if (get_bombs() != 0){
-                    use_bomb();
                     position.second--;
-                    playground.set_cell_type(position, empty);
+                    perform_cell_event();
+                    position.second++;
                 }
             }
             break;
@@ -142,14 +142,23 @@ void PlayerManager::move(direction dir) {
 
     }
 
+    perform_cell_event();
+}
+
+void PlayerManager::perform_cell_event() {
     if (playground.get_cell_event(position) != nullptr){
-        playground.get_cell_event(position)->perform(*this);
+        playground.get_cell_event(position)->perform(*this, playground);
     }
 }
 
 std::pair<int, int>& PlayerManager::get_position(){
     return position;
 }
+
+void PlayerManager::set_position(std::pair<int, int> position_){
+    position = position_;
+}
+
 
 int PlayerManager::get_health() const{
     return player.get_health();

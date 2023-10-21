@@ -36,6 +36,10 @@ std::pair<int, int> Playground::get_exit_point() {
     return exit_point;
 }
 
+CircularLinkedList& Playground::get_portals(){
+    return portals;
+}
+
 Playground::Playground(int width, int height) {
     width = std::clamp(width, MIN_MAP_WIDTH, MAX_MAP_WIDTH);
     height = std::clamp(height, MIN_MAP_HEIGHT, MAX_MAP_HEIGHT);
@@ -64,6 +68,8 @@ Playground::Playground(const Playground& playground) {
     entrance_point = playground.entrance_point;
     exit_point = playground.exit_point;
 
+    portals = playground.portals;
+
     map = new Cell* [playground_size.second];
     for (int i = 0; i < playground_size.second; i++){
         map[i] = new Cell [playground_size.first];
@@ -76,6 +82,8 @@ Playground::Playground(const Playground& playground) {
 
 Playground& Playground::operator = (const Playground& playground) {
     Playground tmp(playground);
+
+    std::swap(portals, tmp.portals);
 
     std::swap(playground_size, tmp.playground_size);
     std::swap(entrance_point, tmp.entrance_point);
@@ -91,6 +99,8 @@ Playground::Playground(Playground &&playground) {
     exit_point = {0, 0};
     map = nullptr;
 
+    std::swap(portals, playground.portals);
+
     std::swap(playground_size, playground.playground_size);
     std::swap(entrance_point, playground.entrance_point);
     std::swap(exit_point, playground.exit_point);
@@ -99,6 +109,9 @@ Playground::Playground(Playground &&playground) {
 
 Playground& Playground::operator = (Playground&& playground) {
     if (this != &playground){
+
+        std::swap(portals, playground.portals);
+
         std::swap(playground_size, playground.playground_size);
         std::swap(entrance_point, playground.entrance_point);
         std::swap(exit_point, playground.exit_point);
