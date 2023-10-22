@@ -2,7 +2,7 @@
 #include "world/map/MapGenerator.h"
 #include "input_output/Renderer.h"
 
-#include <mgetch.h>
+#include <getch.h>
 #include <cstdlib>
 
 
@@ -27,7 +27,7 @@ int main() {
         renderer.print_map();
         renderer.print_player_info();
 
-        int ch = mgetch();
+        int ch = getch();
 
         switch (ch)
         {

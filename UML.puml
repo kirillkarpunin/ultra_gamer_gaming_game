@@ -1,0 +1,78 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class Node {
+    + std::pair<int, int> position;
+    + Node* next;
+
+    + Node();
+    + ~Node();
+}
+
+class CircularLinkedList {
+    - Node* head;
+    - int len;
+
+    + CircularLinkedList();
+    + ~CircularLinkedList();
+
+    + void add(std::pair<int, int> position_);
+    + void move_head();
+    + std::pair<int, int> get_position();
+}
+
+class Chest {
+    + Chest();
+    + ~Chest();
+
+    + void perform(PlayerManager& player_manager, Playground& playground) final;
+}
+
+class ExplodeWall {
+    + ExplodeWall();
+    + ~ExplodeWall();
+
+    + void perform(PlayerManager& player_manager, Playground& playground) final;
+}
+
+class Teleport {
+    + Teleport();
+    + ~Teleport();
+
+    + void perform(PlayerManager& player_manager, Playground& playground) final;
+}
+
+class Trap {
+public:
+    + Trap();
+    + ~Trap();
+
+    + void perform(PlayerManager& player_manager, Playground& playground) final;
+}
+
+interface IEvent {
+    + virtual void perform(PlayerManager& player_manager, Playground& playground) = 0;
+
+    + virtual ~IEvent() = default;
+}
+
+Trap <|.. IEvent
+Teleport <|.. IEvent
+Chest <|.. IEvent
+ExplodeWall <|.. IEvent
+CircularLinkedList *-- Node
+
+class MapGenerator {
+    - Playground& playground;
+
+    + MapGenerator(Playground& playground_);
+    + ~MapGenerator();
+
+    + void generate();
+    + void create_objects(cell_types type, int n);
+}
+
+left to right direction
+
+@enduml
