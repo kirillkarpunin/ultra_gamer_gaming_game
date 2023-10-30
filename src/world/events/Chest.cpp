@@ -27,7 +27,7 @@ void Chest::perform(PlayerManager &player_manager, Playground& playground) {
 
     switch (item) {
         case potion:
-            player_manager.heal(POTION_HEAL);
+            player_manager.heal(potion_heal);
             break;
         case shield:
             player_manager.raise_shield();
@@ -36,7 +36,7 @@ void Chest::perform(PlayerManager &player_manager, Playground& playground) {
             player_manager.upgrade_weapon();
             break;
         case bombs:
-            player_manager.pick_up_bombs(BOMBS);
+            player_manager.pick_up_bombs(bombs_pack);
             break;
     }
 

@@ -1,21 +1,17 @@
-#pragma once
-
 #ifndef OOP_PLAYGROUND_H
 #define OOP_PLAYGROUND_H
-
-#define MIN_MAP_WIDTH 10
-#define DEF_MAP_WIDTH 30
-#define MAX_MAP_WIDTH 64
-
-#define MIN_MAP_HEIGHT 10
-#define DEF_MAP_HEIGHT 15
-#define MAX_MAP_HEIGHT 64
-
 
 #include <utility>
 #include "Cell.h"
 #include "../../sup/circular_linked_list/CircularLinkedList.h"
 
+constexpr int min_map_width = 10;
+constexpr int def_map_width = 28;
+constexpr int max_map_width = 32;
+
+constexpr int min_map_height = 10;
+constexpr int def_map_height = 14;
+constexpr int max_map_height = 32;
 
 class Playground {
 private:
@@ -28,7 +24,7 @@ private:
     CircularLinkedList portals;
 
 public:
-    Playground(int width = DEF_MAP_WIDTH, int height = DEF_MAP_HEIGHT);
+    Playground(int width = def_map_width, int height = def_map_height);
     ~Playground();
 
     Playground(const Playground& playground);

@@ -2,7 +2,7 @@
 
 
 void PlayerManager::take_damage(int taken_damage) {
-    taken_damage = std::clamp(taken_damage, 0, MAX_HEALTH+MAX_SHIELD);
+    taken_damage = std::clamp(taken_damage, 0, max_health+max_armor);
 
     if (player.get_armor() >= taken_damage){
         player.set_armor(player.get_armor() - taken_damage);
@@ -24,29 +24,29 @@ void PlayerManager::use_bomb() {
 }
 
 void PlayerManager::heal(int health_healed) {
-    health_healed = std::clamp(health_healed, 0, MAX_HEALTH);
+    health_healed = std::clamp(health_healed, 0, max_health);
 
     player.set_health(player.get_health() + health_healed);
-    if (player.get_health() > MAX_HEALTH){
-        player.set_health(MAX_HEALTH);
+    if (player.get_health() > max_health){
+        player.set_health(max_health);
     }
 }
 
 void PlayerManager::raise_shield() {
-    player.set_armor(MAX_SHIELD);
+    player.set_armor(max_armor);
 }
 
 void PlayerManager::upgrade_weapon() {
     player.set_damage(player.get_damage() + 5);
-    if (player.get_damage() > MAX_DAMAGE){
-        player.set_damage(MAX_DAMAGE);
+    if (player.get_damage() > max_damage){
+        player.set_damage(max_damage);
     }
 }
 
 void PlayerManager::pick_up_bombs(int bombs) {
     player.set_bombs(player.get_bombs() + bombs);
-    if (player.get_bombs() > MAX_BOMBS){
-        player.set_bombs(MAX_BOMBS);
+    if (player.get_bombs() > max_bombs){
+        player.set_bombs(max_bombs);
     }
 }
 
@@ -55,19 +55,19 @@ bool PlayerManager::is_defeated() const{
 }
 
 bool PlayerManager::is_full_health() const {
-    return player.get_health() == MAX_HEALTH;
+    return player.get_health() == max_health;
 }
 
 bool PlayerManager::is_full_shield() const {
-    return player.get_armor() == MAX_SHIELD;
+    return player.get_armor() == max_armor;
 }
 
 bool PlayerManager::is_fully_upgraded_weapon() const {
-    return player.get_damage() == MAX_DAMAGE;
+    return player.get_damage() == max_damage;
 }
 
 bool PlayerManager::is_full_bombs() const {
-    return player.get_bombs() == MAX_BOMBS;
+    return player.get_bombs() == max_bombs;
 }
 
 void PlayerManager::move(direction dir) {

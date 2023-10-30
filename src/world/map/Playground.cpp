@@ -41,8 +41,8 @@ CircularLinkedList& Playground::get_portals(){
 }
 
 Playground::Playground(int width, int height) {
-    width = std::clamp(width, MIN_MAP_WIDTH, MAX_MAP_WIDTH);
-    height = std::clamp(height, MIN_MAP_HEIGHT, MAX_MAP_HEIGHT);
+    width = std::clamp(width, min_map_width, max_map_width);
+    height = std::clamp(height, min_map_height, max_map_height);
 
     playground_size = {width, height};
 

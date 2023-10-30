@@ -61,9 +61,6 @@ int main() {
     else if (player_manager.get_position() == playground.get_exit_point()){
         renderer.victory_end();
     }
-    else {
-        renderer.escape_end();
-    }
 
     return 0;
 }

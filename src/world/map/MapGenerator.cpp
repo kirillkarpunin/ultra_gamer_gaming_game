@@ -20,28 +20,53 @@ void MapGenerator::create_objects(cell_types type, int n){
     }
 }
 
+void MapGenerator::create_path(){
+    int x = 0;
+    int y = 0;
+    srand(clock());
+
+    int r;
+    while (x < playground.get_size().first || y < playground.get_size().second){
+        r = rand() % playground.get_size().first;
+        for (int i = 0; i < r; i++)
+        {
+            if (playground.get_cell_type({x,y}) == obstacle){
+                playground.set_cell_type({x,y}, empty);
+            }
+            x++;
+        }
+        r = rand() % playground.get_size().second;
+        for (int i = 0; i < r; i++)
+        {
+            if (playground.get_cell_type({x,y}) == obstacle){
+                playground.set_cell_type({x,y}, empty);
+            }
+            y++;
+        }
+    }
+}
+
 void MapGenerator::generate(){
     playground.set_cell_type(playground.get_entrance_point(), entrance);
     playground.set_cell_type(playground.get_exit_point(), exit_);
 
     srand(clock());
 
-    int first_path = rand() % 2;
-    int second_path = !first_path;
-
-    for (int i = 1 * first_path; i < playground.get_size().second - 1 * second_path; i++)
+    for (int i = 0; i < playground.get_size().second; i++)
     {
-        for (int j = 1 * second_path; j < playground.get_size().first - 1 * first_path; j++)
+        for (int j = 0; j < playground.get_size().first; j++)
         {
             if (playground.get_cell_type({j,i}) == empty)
             {
-                if ( rand() % 100 + 1 > (100 - OBSTACLE_CHANCE) )
+                if ( rand() % 100 + 1 > (100 - obstacle_chance) )
                 {
                     playground.set_cell_type({j,i}, obstacle);
                 }
             }
         }
     }
+
+    create_path();
 
     create_objects(trap, (int)sqrt(playground.get_size().first * playground.get_size().second) / 4);
     create_objects(chest, (int)sqrt(playground.get_size().first * playground.get_size().second) / 8);

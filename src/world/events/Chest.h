@@ -1,12 +1,11 @@
 #ifndef OOP_CHEST_H
 #define OOP_CHEST_H
 
-#define POTION_HEAL 3
-#define BOMBS 3
-
 #include <ctime>
-
 #include "IEvent.h"
+
+constexpr int potion_heal = 3;
+constexpr int bombs_pack = 3;
 
 class Chest : public IEvent {
 public:

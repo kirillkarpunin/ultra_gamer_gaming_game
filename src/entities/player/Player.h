@@ -1,18 +1,17 @@
 #ifndef OOP_PLAYER_H
 #define OOP_PLAYER_H
 
-#define MAX_HEALTH 10
-#define MAX_SHIELD 5
-#define MAX_DAMAGE 20
-#define MAX_BOMBS 5
-
+constexpr int max_health = 10;
+constexpr int max_armor = 5;
+constexpr int max_damage = 20;
+constexpr int max_bombs = 5;
 
 class Player {
 private:
-    int health; // will be 10 at start
-    int armor;  // will be 0 at start
-    int damage; // will be 5 at start
-    int bombs;  // will be 1 at start
+    int health;
+    int armor;
+    int damage;
+    int bombs;
 public:
     Player();
     ~Player();

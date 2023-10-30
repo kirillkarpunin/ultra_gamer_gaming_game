@@ -1,9 +1,9 @@
 #ifndef OOP_TRAP_H
 #define OOP_TRAP_H
 
-#define TRAP_DAMAGE 1
-
 #include "IEvent.h"
+
+constexpr int trap_damage = 1;
 
 class Trap: public IEvent {
 public:
