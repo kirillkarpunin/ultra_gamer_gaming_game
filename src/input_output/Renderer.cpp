@@ -87,7 +87,16 @@ void Renderer::print_menu(Menu& menu) {
 }
 
 void Renderer::print_level(int level) {
-    std::cout << "level: " << level << std::endl;
+    std::cout << "\nLevel: " << level << std::endl;
+}
+
+void Renderer::print_settings_label() {
+    std::cout << "\n\t| SETTINGS |\n\n";
+}
+
+void Renderer::print_pause_label() {
+    std::cout << "\n\t| PAUSE |\n\n";
+
 }
 
 Renderer::Renderer() = default;

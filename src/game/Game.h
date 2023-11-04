@@ -32,6 +32,9 @@ private:
 
     void game_loop();
 
+    void new_size();
+    void see_controls();
+
 public:
     Game();
 

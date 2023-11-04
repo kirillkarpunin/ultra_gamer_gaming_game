@@ -41,6 +41,7 @@ void Game::create_new_level() {
 
     level++;
     saved_progress = true;
+    playground_size = playground->get_size();
 }
 
 void Game::game_loop() {
@@ -129,6 +130,7 @@ void Game::main_menu() {
                         game_loop();
                         break;
                     case settings:
+                        settings_menu();
                         break;
                 }
         }
@@ -145,7 +147,7 @@ void Game::pause_menu() {
 
     while(p_menu.is_active()){
         renderer->terminal_clear();
-        renderer->print_logo();
+        renderer->print_pause_label();
         renderer->print_menu(p_menu);
 
         int ch = getch();
@@ -177,6 +179,7 @@ void Game::pause_menu() {
                         p_menu.close();
                         break;
                     case settings:
+                        settings_menu();
                         break;
                 }
         }
@@ -254,4 +257,77 @@ void Game::defeat_menu() {
                 }
         }
     }
+}
+
+void Game::settings_menu() {
+    Menu s_menu({
+                        {"change field size", change_size},
+                        {"see control keys", see_keys},
+                        {"back", return_main_menu}
+    });
+
+    while(s_menu.is_active()){
+        renderer->terminal_clear();
+        renderer->print_settings_label();
+        renderer->print_menu(s_menu);
+
+        int ch = getch();
+
+        switch (ch)
+        {
+            case 27:
+                s_menu.close();
+                break;
+
+            case 'w':
+                s_menu.option_up();
+                break;
+            case 's':
+                s_menu.option_down();
+                break;
+            case ' ':
+                switch (s_menu.choose_option()) {
+                    case return_main_menu:
+                        s_menu.close();
+                        break;
+                    case change_size:
+                        new_size();
+                        break;
+                    case new_game:
+
+                        break;
+                }
+        }
+    }
+}
+
+void Game::new_size() {
+    renderer->terminal_clear();
+
+    int height, width;
+    std::string input;
+
+    std::cout << "\nCurrent size: " << playground_size.first << " x " << playground_size.second;
+
+    std::cout << "\n\n\tEnter new size:\n"
+                 "Width: ";
+    std::getline(std::cin, input);
+    try {
+        width = std::stoi(input, nullptr, 10);
+    }
+    catch (std::exception& err){
+        return;
+    }
+
+    std::cout << "Height: ";
+    std::getline(std::cin, input);
+    try {
+        height = std::stoi(input, nullptr, 10);
+    }
+    catch (std::exception& err){
+        return;
+    }
+
+    playground_size.first = width;
+    playground_size.second = height;
 }

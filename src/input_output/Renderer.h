@@ -21,6 +21,9 @@ public:
 
     void print_menu(Menu& menu);
 
+    void print_settings_label();
+    void print_pause_label();
+
     void defeat_end(int level);
     void victory_end(int level);
 };
