@@ -29,6 +29,7 @@ public:
     void pick_up_bombs(int bombs);
 
     bool is_defeated() const;
+    bool is_on_exit() const;
 
     bool is_full_shield() const;
     bool is_fully_upgraded_weapon() const;

@@ -28,4 +28,9 @@ add_executable(oop src/Main.cpp
         src/sup/circular_linked_list/CircularLinkedList.cpp
         src/sup/circular_linked_list/CircularLinkedList.h
         src/sup/circular_linked_list/Node.cpp
-        src/sup/circular_linked_list/Node.h)
+        src/sup/circular_linked_list/Node.h
+        src/game/Game.cpp
+        src/game/Game.h
+        src/game/Menu.cpp
+        src/game/Menu.h
+)

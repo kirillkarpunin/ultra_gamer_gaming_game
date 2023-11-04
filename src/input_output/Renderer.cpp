@@ -1,6 +1,8 @@
 #include "Renderer.h"
 
-void Renderer::print_map(){
+void Renderer::print_map(Playground& playground, PlayerManager& player_manager){
+    std::cout << std::endl;
+
     for (int i = 0; i < playground.get_size().second; i++)
     {
         for (int j = 0; j < playground.get_size().first; j++)
@@ -47,7 +49,7 @@ void Renderer::print_map(){
     }
 }
 
-void Renderer::print_player_info() {
+void Renderer::print_player_info(PlayerManager& player_manager) {
     std::cout << std::endl;
 
     std::cout << "Health:\t" << player_manager.get_health() << std::endl;
@@ -57,17 +59,36 @@ void Renderer::print_player_info() {
 }
 
 void Renderer::print_logo() {
-    std::cout << "| DUNGEON CRAWLER |\n\n";
+    std::cout << "\n\t| DUNGEON CRAWLER |\n\n";
 }
 
-Renderer::Renderer(PlayerManager &player_manager_, Playground& playground_): player_manager(player_manager_), playground(playground_) {}
-
-void Renderer::defeat_end() {
-    std::cout << "\n\t\t\tDEFEAT\n\n";
+void Renderer::defeat_end(int level) {
+    std::cout << "\n"
+                 "\tDEFEAT\n"
+                 "\tYOU DIED ON " << level << " LEVEL\n\n";
 }
 
-void Renderer::victory_end() {
-    std::cout << "\n\t\t\tVICTORY\n\n";
+void Renderer::victory_end(int level) {
+    std::cout << "\n"
+                 "\tVICTORY\n"
+                 "\tLEVEL " << level << " PASSED\n\n";
 }
 
+void Renderer::terminal_clear() {
+    system("clear");
+}
+
+void Renderer::print_menu(Menu& menu) {
+    for (auto elem : menu.get_options()){
+        std::cout << "\t";
+        if (elem == menu.get_options()[menu.get_curr_option()]) std::cout << "> ";
+        std::cout << elem.first << std::endl;
+    }
+}
+
+void Renderer::print_level(int level) {
+    std::cout << "level: " << level << std::endl;
+}
+
+Renderer::Renderer() = default;
 Renderer::~Renderer() = default;

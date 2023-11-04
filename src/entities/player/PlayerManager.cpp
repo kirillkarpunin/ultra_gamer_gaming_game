@@ -178,4 +178,8 @@ int PlayerManager::get_bombs() const {
 
 PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_) {}
 
+bool PlayerManager::is_on_exit() const {
+    return playground.get_cell_type(position) == exit_;
+}
+
 PlayerManager::~PlayerManager() = default;

@@ -6,19 +6,17 @@
 #include <algorithm>
 #include "Playground.h"
 
-constexpr int obstacle_chance = 35;
+constexpr int obstacle_chance = 25;
 
 class MapGenerator {
 private:
-    Playground& playground;
-
-    void create_path();
-    void create_objects(cell_types type, int n);
+    void create_path(Playground& playground);
+    void create_objects(Playground& playground, cell_types type, int n);
 public:
-    MapGenerator(Playground& playground_);
+    MapGenerator();
     ~MapGenerator();
 
-    void generate();
+    void generate(Playground& playground);
 };
 
 

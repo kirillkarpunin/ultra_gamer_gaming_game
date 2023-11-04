@@ -1,6 +1,6 @@
 #include "MapGenerator.h"
 
-void MapGenerator::create_objects(cell_types type, int n){
+void MapGenerator::create_objects(Playground& playground, cell_types type, int n){
     n = std::clamp(n, 0, (int)sqrt(playground.get_size().first * playground.get_size().second) / 2);
 
     for (int i = 0; i < n; i++)
@@ -20,7 +20,7 @@ void MapGenerator::create_objects(cell_types type, int n){
     }
 }
 
-void MapGenerator::create_path(){
+void MapGenerator::create_path(Playground& playground){
     int x = 0;
     int y = 0;
     srand(clock());
@@ -46,7 +46,7 @@ void MapGenerator::create_path(){
     }
 }
 
-void MapGenerator::generate(){
+void MapGenerator::generate(Playground& playground){
     playground.set_cell_type(playground.get_entrance_point(), entrance);
     playground.set_cell_type(playground.get_exit_point(), exit_);
 
@@ -66,13 +66,12 @@ void MapGenerator::generate(){
         }
     }
 
-    create_path();
+    create_path(playground);
 
-    create_objects(trap, (int)sqrt(playground.get_size().first * playground.get_size().second) / 4);
-    create_objects(chest, (int)sqrt(playground.get_size().first * playground.get_size().second) / 8);
-    create_objects(portal, (int)sqrt(playground.get_size().first * playground.get_size().second) / 6);
+    create_objects(playground, trap, (int)sqrt(playground.get_size().first * playground.get_size().second) / 4);
+    create_objects(playground, chest, (int)sqrt(playground.get_size().first * playground.get_size().second) / 8);
+    create_objects(playground, portal, (int)sqrt(playground.get_size().first * playground.get_size().second) / 6);
 }
 
-MapGenerator::MapGenerator(Playground& playground_): playground(playground_) {}
-
+MapGenerator::MapGenerator() = default;
 MapGenerator::~MapGenerator() = default;

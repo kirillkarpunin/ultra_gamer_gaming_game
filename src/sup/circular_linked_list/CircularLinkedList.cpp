@@ -34,9 +34,12 @@ std::pair<int, int> CircularLinkedList::get_position() {
 }
 
 CircularLinkedList::~CircularLinkedList() {
-    for (int i = 0; i < len; i++){
-        Node* tmp = head->next;
-        delete head;
-        head = tmp;
+    if (len == 0) delete head;
+    else{
+        for (int i = 0; i < len; i++) {
+            Node *tmp = head->next;
+            delete head;
+            head = tmp;
+        }
     }
 }

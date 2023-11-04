@@ -2,23 +2,27 @@
 #define OOP_RENDERER_H
 
 #include <iostream>
-#include <termcolor.hpp>
+#include <cstdlib>
+
+#include "../../include/termcolor/termcolor.hpp"
 #include "../entities/player/PlayerManager.h"
+#include "../game/Menu.h"
 
 class Renderer {
-private:
-    PlayerManager& player_manager;
-    Playground& playground;
 public:
-    Renderer(PlayerManager& player_manager_, Playground& playground_);
+    Renderer();
     ~Renderer();
 
-    void print_player_info();
-    void print_map();
+    void terminal_clear();
+    void print_player_info(PlayerManager& player_manager);
+    void print_map(Playground& playground, PlayerManager& player_manager);
     void print_logo();
+    void print_level(int level);
 
-    void defeat_end();
-    void victory_end();
+    void print_menu(Menu& menu);
+
+    void defeat_end(int level);
+    void victory_end(int level);
 };
 
 
