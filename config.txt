@@ -1,0 +1,6 @@
+119:up_key
+97:left_key
+115:down_key
+100:right_key
+32:wait_key
+27:esc_key

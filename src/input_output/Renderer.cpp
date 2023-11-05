@@ -1,6 +1,6 @@
 #include "Renderer.h"
 
-void Renderer::print_map(Playground& playground, PlayerManager& player_manager){
+void Renderer::render_map(Playground& playground, PlayerManager& player_manager){
     std::cout << std::endl;
 
     for (int i = 0; i < playground.get_size().second; i++)
@@ -58,10 +58,6 @@ void Renderer::print_player_info(PlayerManager& player_manager) {
     std::cout << "Bombs:\t" << player_manager.get_bombs() << std::endl;
 }
 
-void Renderer::print_logo() {
-    std::cout << "\n\t| DUNGEON CRAWLER |\n\n";
-}
-
 void Renderer::defeat_end(int level) {
     std::cout << "\n"
                  "\tDEFEAT\n"
@@ -88,15 +84,6 @@ void Renderer::print_menu(Menu& menu) {
 
 void Renderer::print_level(int level) {
     std::cout << "\nLevel: " << level << std::endl;
-}
-
-void Renderer::print_settings_label() {
-    std::cout << "\n\t| SETTINGS |\n\n";
-}
-
-void Renderer::print_pause_label() {
-    std::cout << "\n\t| PAUSE |\n\n";
-
 }
 
 Renderer::Renderer() = default;

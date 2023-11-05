@@ -8,6 +8,8 @@
 #include "../world/map/MapGenerator.h"
 
 #include "../input_output/Renderer.h"
+#include "../input_output/Printer.h"
+#include "../input_output/Config.h"
 
 class Game {
 private:
@@ -15,7 +17,11 @@ private:
     PlayerManager* player_manager;
     Playground* playground;
     MapGenerator* map_generator;
+
     Renderer* renderer;
+    Printer* printer;
+
+    Config* config;
 
     std::pair<int, int> playground_size;
 
@@ -33,7 +39,6 @@ private:
     void game_loop();
 
     void new_size();
-    void see_controls();
 
 public:
     Game();

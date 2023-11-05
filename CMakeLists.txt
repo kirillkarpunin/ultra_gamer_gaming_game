@@ -33,4 +33,8 @@ add_executable(oop src/Main.cpp
         src/game/Game.h
         src/game/Menu.cpp
         src/game/Menu.h
+        src/input_output/Config.cpp
+        src/input_output/Config.h
+        src/input_output/Printer.cpp
+        src/input_output/Printer.h
 )

@@ -7,8 +7,11 @@ Game::Game() {
     playground = new Playground;
     player_manager = new PlayerManager(*player, *playground);
 
+    printer = new Printer();
     renderer = new Renderer();
     map_generator = new MapGenerator();
+
+    config = new Config("../config.txt");
 
     playground_size = playground->get_size();
     game_is_running = true;
@@ -17,6 +20,9 @@ Game::Game() {
 }
 
 Game::~Game() {
+    delete config;
+
+    delete printer;
     delete renderer;
     delete map_generator;
 
@@ -53,34 +59,35 @@ void Game::game_loop() {
 
         renderer->terminal_clear();
         renderer->print_level(level);
-        renderer->print_map(*playground, *player_manager);
+        renderer->render_map(*playground, *player_manager);
         renderer->print_player_info(*player_manager);
 
         int ch = getch();
 
-        switch (ch)
+        switch (config->pressed_key(ch))
         {
-            case 27:
+            case esc_key:
                 pause_menu();
                 if (!saved_progress) create_new_level();
                 break;
 
-            case 'w':
+            case up_key:
                 player_manager->move(up);
                 break;
-            case 'a':
+            case left_key:
                 player_manager->move(left);
                 break;
-            case 's':
+            case down_key:
                 player_manager->move(down);
                 break;
-            case 'd':
+            case right_key:
                 player_manager->move(right);
                 break;
-            case ' ':
+            case wait_key:
                 player_manager->move(none);
                 break;
-
+            default:
+                break;
         }
     }
     renderer->terminal_clear();
@@ -96,6 +103,12 @@ void Game::game_loop() {
 }
 
 void Game::main_menu() {
+
+    if (!config->is_valid()){
+        printer->print_invalid_config();
+        return;
+    }
+
     Menu m_menu({
                     {"play", play_game},
                     {"settings", settings},
@@ -104,24 +117,24 @@ void Game::main_menu() {
 
     while(m_menu.is_active()){
         renderer->terminal_clear();
-        renderer->print_logo();
+        printer->print_logo();
         renderer->print_menu(m_menu);
 
         int ch = getch();
 
-        switch (ch)
+        switch (config->pressed_key(ch))
         {
-            case 27:
+            case esc_key:
                 m_menu.close();
                 break;
 
-            case 'w':
+            case up_key:
                 m_menu.option_up();
                 break;
-            case 's':
+            case down_key:
                 m_menu.option_down();
                 break;
-            case ' ':
+            case wait_key:
                 switch (m_menu.choose_option()) {
                     case exit_game:
                         m_menu.close();
@@ -132,7 +145,11 @@ void Game::main_menu() {
                     case settings:
                         settings_menu();
                         break;
+                    default:
+                        break;
                 }
+            default:
+                break;
         }
     }
 }
@@ -147,24 +164,24 @@ void Game::pause_menu() {
 
     while(p_menu.is_active()){
         renderer->terminal_clear();
-        renderer->print_pause_label();
+        printer->print_pause_label();
         renderer->print_menu(p_menu);
 
         int ch = getch();
 
-        switch (ch)
+        switch (config->pressed_key(ch))
         {
-            case 27:
+            case esc_key:
                 p_menu.close();
                 break;
 
-            case 'w':
+            case up_key:
                 p_menu.option_up();
                 break;
-            case 's':
+            case down_key:
                 p_menu.option_down();
                 break;
-            case ' ':
+            case wait_key:
                 switch (p_menu.choose_option()) {
                     case return_main_menu:
                         p_menu.close();
@@ -181,7 +198,11 @@ void Game::pause_menu() {
                     case settings:
                         settings_menu();
                         break;
+                    default:
+                        break;
                 }
+            default:
+                break;
         }
     }
 }
@@ -199,14 +220,14 @@ void Game::victory_menu() {
 
         int ch = getch();
 
-        switch (ch) {
-            case 'w':
+        switch (config->pressed_key(ch)) {
+            case up_key:
                 v_menu.option_up();
                 break;
-            case 's':
+            case down_key:
                 v_menu.option_down();
                 break;
-            case ' ':
+            case wait_key:
                 switch (v_menu.choose_option()) {
                     case return_main_menu:
                         v_menu.close();
@@ -216,7 +237,11 @@ void Game::victory_menu() {
                         v_menu.close();
                         game_loop();
                         break;
+                    default:
+                        break;
                 }
+            default:
+                break;
         }
     }
 }
@@ -237,14 +262,14 @@ void Game::defeat_menu() {
 
         int ch = getch();
 
-        switch (ch) {
-            case 'w':
+        switch (config->pressed_key(ch)) {
+            case up_key:
                 d_menu.option_up();
                 break;
-            case 's':
+            case down_key:
                 d_menu.option_down();
                 break;
-            case ' ':
+            case wait_key:
                 switch (d_menu.choose_option()) {
                     case return_main_menu:
                         d_menu.close();
@@ -254,7 +279,11 @@ void Game::defeat_menu() {
                         d_menu.close();
                         game_loop();
                         break;
+                    default:
+                        break;
                 }
+            default:
+                break;
         }
     }
 }
@@ -262,30 +291,29 @@ void Game::defeat_menu() {
 void Game::settings_menu() {
     Menu s_menu({
                         {"change field size", change_size},
-                        {"see control keys", see_keys},
                         {"back", return_main_menu}
     });
 
     while(s_menu.is_active()){
         renderer->terminal_clear();
-        renderer->print_settings_label();
+        printer->print_settings_label();
         renderer->print_menu(s_menu);
 
         int ch = getch();
 
-        switch (ch)
+        switch (config->pressed_key(ch))
         {
-            case 27:
+            case esc_key:
                 s_menu.close();
                 break;
 
-            case 'w':
+            case up_key:
                 s_menu.option_up();
                 break;
-            case 's':
+            case down_key:
                 s_menu.option_down();
                 break;
-            case ' ':
+            case wait_key:
                 switch (s_menu.choose_option()) {
                     case return_main_menu:
                         s_menu.close();
@@ -293,10 +321,11 @@ void Game::settings_menu() {
                     case change_size:
                         new_size();
                         break;
-                    case new_game:
-
+                    default:
                         break;
                 }
+            default:
+                break;
         }
     }
 }
@@ -331,3 +360,4 @@ void Game::new_size() {
     playground_size.first = width;
     playground_size.second = height;
 }
+
