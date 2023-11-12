@@ -2,76 +2,83 @@
 'https://plantuml.com/class-diagram
 
 
-class Node {
-    + std::pair<int, int> position;
-    + Node* next;
+class Game {
+    - Player* player;
+    - PlayerManager* player_manager;
+    - Playground* playground;
+    - MapGenerator* map_generator;
 
-    + Node();
-    + ~Node();
+    - Renderer* renderer;
+    - Printer* printer;
+
+    - Config* config;
+
+    - std::pair<int, int> playground_size;
+    - bool saved_progress;
+    - bool game_is_running;
+    - int level;
+
+    -void create_new_level();
+    -void pause_menu();
+    -void victory_menu();
+    -void defeat_menu();
+    -void settings_menu();
+    -void game_loop();
+    -void new_size();
+
+    + Game();
+    + void main_menu();
+    +~Game();
 }
 
-class CircularLinkedList {
-    - Node* head;
-    - int len;
 
-    + CircularLinkedList();
-    + ~CircularLinkedList();
+enum menu_options{
+ play_game
+ settings
+ exit_game
+ return_main_menu
+ resume
+ next_level
+ new_game
+ change_size
+ }
 
-    + void add(std::pair<int, int> position_);
-    + void move_head();
-    + std::pair<int, int> get_position();
-}
+ class Menu {
+     -std::vector<option> options;
+     -int curr_option;
+     -bool active;
 
-class Chest {
-    + Chest();
-    + ~Chest();
+     +Menu(std::vector<option> options_);
+     +~Menu();
 
-    + void perform(PlayerManager& player_manager, Playground& playground) final;
-}
+     +void option_up();
+     +void option_down();
 
-class ExplodeWall {
-    + ExplodeWall();
-    + ~ExplodeWall();
+     +int get_curr_option() const;
+     +std::vector<option>& get_options();
 
-    + void perform(PlayerManager& player_manager, Playground& playground) final;
-}
+     +menu_options choose_option() const;
 
-class Teleport {
-    + Teleport();
-    + ~Teleport();
+     +bool is_active() const;
+     +void close();
 
-    + void perform(PlayerManager& player_manager, Playground& playground) final;
-}
+ }
 
-class Trap {
-public:
-    + Trap();
-    + ~Trap();
+ class Renderer {
 
-    + void perform(PlayerManager& player_manager, Playground& playground) final;
-}
+     +Renderer();
+     +~Renderer();
 
-interface IEvent {
-    + virtual void perform(PlayerManager& player_manager, Playground& playground) = 0;
+     +void terminal_clear();
+     +void print_player_info(PlayerManager& player_manager);
+     +void render_map(Playground& playground, PlayerManager& player_manager);
+     +void print_menu(Menu& menu);
 
-    + virtual ~IEvent() = default;
-}
+     +void print_level(int level);
 
-Trap <|.. IEvent
-Teleport <|.. IEvent
-Chest <|.. IEvent
-ExplodeWall <|.. IEvent
-CircularLinkedList *-- Node
-
-class MapGenerator {
-    - Playground& playground;
-
-    + MapGenerator(Playground& playground_);
-    + ~MapGenerator();
-
-    + void generate();
-    + void create_objects(cell_types type, int n);
-}
+     +void defeat_end(int level);
+     +void victory_end(int level);
+ }
 
 left to right direction
 
