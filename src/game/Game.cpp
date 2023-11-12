@@ -113,28 +113,18 @@ void Game::main_menu() {
 
         int ch = getch();
 
-        switch (config->pressed_key(ch))
+        switch (m_menu.update(config->pressed_key(ch)))
         {
-            case up_key:
-                m_menu.option_up();
+            case exit_game:
+                m_menu.close();
                 break;
-            case down_key:
-                m_menu.option_down();
+            case play_game:
+                game_loop();
                 break;
-            case wait_key:
-                switch (m_menu.choose_option()) {
-                    case exit_game:
-                        m_menu.close();
-                        break;
-                    case play_game:
-                        game_loop();
-                        break;
-                    case settings:
-                        settings_menu();
-                        break;
-                    default:
-                        break;
-                }
+            case settings:
+                settings_menu();
+                break;
+            case nothing:
             default:
                 break;
         }
@@ -156,38 +146,24 @@ void Game::pause_menu() {
 
         int ch = getch();
 
-        switch (config->pressed_key(ch))
+        switch (p_menu.update(config->pressed_key(ch)))
         {
-            case esc_key:
+            case return_main_menu:
+                p_menu.close();
+                game_is_running = false;
+                break;
+            case new_game:
+                level_n = 0;
+                saved_progress = false;
                 p_menu.close();
                 break;
-
-            case up_key:
-                p_menu.option_up();
+            case resume:
+                p_menu.close();
                 break;
-            case down_key:
-                p_menu.option_down();
+            case settings:
+                settings_menu();
                 break;
-            case wait_key:
-                switch (p_menu.choose_option()) {
-                    case return_main_menu:
-                        p_menu.close();
-                        game_is_running = false;
-                        break;
-                    case new_game:
-                        level_n = 0;
-                        saved_progress = false;
-                        p_menu.close();
-                        break;
-                    case resume:
-                        p_menu.close();
-                        break;
-                    case settings:
-                        settings_menu();
-                        break;
-                    default:
-                        break;
-                }
+            case nothing:
             default:
                 break;
         }
@@ -196,7 +172,7 @@ void Game::pause_menu() {
 
 void Game::victory_menu() {
     Menu v_menu({
-                        {"next level_n", next_level},
+                        {"next level", next_level},
                         {"main menu", return_main_menu}
     });
 
@@ -207,26 +183,17 @@ void Game::victory_menu() {
 
         int ch = getch();
 
-        switch (config->pressed_key(ch)) {
-            case up_key:
-                v_menu.option_up();
+        switch (v_menu.update(config->pressed_key(ch)))
+        {
+            case return_main_menu:
+                v_menu.close();
+                game_is_running = false;
                 break;
-            case down_key:
-                v_menu.option_down();
+            case next_level:
+                v_menu.close();
+                game_loop();
                 break;
-            case wait_key:
-                switch (v_menu.choose_option()) {
-                    case return_main_menu:
-                        v_menu.close();
-                        game_is_running = false;
-                        break;
-                    case next_level:
-                        v_menu.close();
-                        game_loop();
-                        break;
-                    default:
-                        break;
-                }
+            case nothing:
             default:
                 break;
         }
@@ -249,26 +216,17 @@ void Game::defeat_menu() {
 
         int ch = getch();
 
-        switch (config->pressed_key(ch)) {
-            case up_key:
-                d_menu.option_up();
+        switch (d_menu.update(config->pressed_key(ch)))
+        {
+            case return_main_menu:
+                d_menu.close();
+                game_is_running = false;
                 break;
-            case down_key:
-                d_menu.option_down();
+            case new_game:
+                d_menu.close();
+                game_loop();
                 break;
-            case wait_key:
-                switch (d_menu.choose_option()) {
-                    case return_main_menu:
-                        d_menu.close();
-                        game_is_running = false;
-                        break;
-                    case new_game:
-                        d_menu.close();
-                        game_loop();
-                        break;
-                    default:
-                        break;
-                }
+            case nothing:
             default:
                 break;
         }
@@ -278,7 +236,7 @@ void Game::defeat_menu() {
 void Game::settings_menu() {
     Menu s_menu({
                         {"change field size", change_size},
-                        {"back", return_main_menu}
+                        {"back", resume}
     });
 
     while(s_menu.is_active()){
@@ -288,29 +246,15 @@ void Game::settings_menu() {
 
         int ch = getch();
 
-        switch (config->pressed_key(ch))
+        switch (s_menu.update(config->pressed_key(ch)))
         {
-            case esc_key:
+            case resume:
                 s_menu.close();
                 break;
-
-            case up_key:
-                s_menu.option_up();
+            case change_size:
+                new_size();
                 break;
-            case down_key:
-                s_menu.option_down();
-                break;
-            case wait_key:
-                switch (s_menu.choose_option()) {
-                    case return_main_menu:
-                        s_menu.close();
-                        break;
-                    case change_size:
-                        new_size();
-                        break;
-                    default:
-                        break;
-                }
+            case nothing:
             default:
                 break;
         }

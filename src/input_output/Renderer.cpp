@@ -77,7 +77,7 @@ void Renderer::terminal_clear() {
 void Renderer::print_menu(Menu& menu) {
     for (auto elem : menu.get_options()){
         std::cout << "\t";
-        if (elem == menu.get_options()[menu.get_curr_option()]) std::cout << "> ";
+        if (elem == menu.get_options()[menu.get_curr_pos()]) std::cout << "> ";
         std::cout << elem.first << std::endl;
     }
 }
