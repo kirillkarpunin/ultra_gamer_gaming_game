@@ -4,19 +4,18 @@
 
 Game::Game() {
     player = new Player;
-    playground = new Playground;
-    player_manager = new PlayerManager(*player, *playground);
 
     printer = new Printer();
     renderer = new Renderer();
-    map_generator = new MapGenerator();
 
     config = new Config("../config.txt");
 
-    playground_size = playground->get_size();
+    level = new Level(player);
+    
+    playground_size = level->playground->get_size();
     game_is_running = true;
     saved_progress = false;
-    level = 0;
+    level_n = 0;
 }
 
 Game::~Game() {
@@ -24,30 +23,22 @@ Game::~Game() {
 
     delete printer;
     delete renderer;
-    delete map_generator;
 
-    delete playground;
-    delete player_manager;
+    delete level;
     delete player;
 }
 
 void Game::create_new_level() {
-    delete playground;
-    delete player_manager;
-
-    if (level == 0 || player_manager->is_defeated()) {
+    if (level_n == 0) {
         delete player;
         player = new Player;
     }
-    playground = new Playground(playground_size.first, playground_size.second);
-    player_manager = new PlayerManager(*player, *playground);
 
-    map_generator->generate(*playground);
-    player_manager->set_position(playground->get_entrance_point());
+    level->new_level(player, playground_size);
 
-    level++;
+    level_n++;
     saved_progress = true;
-    playground_size = playground->get_size();
+    playground_size = level->playground->get_size();
 }
 
 void Game::game_loop() {
@@ -55,12 +46,12 @@ void Game::game_loop() {
     if (!saved_progress) create_new_level();
 
     game_is_running = true;
-    while(game_is_running && !player_manager->is_defeated() && !player_manager->is_on_exit()) {
+    while(game_is_running && !level->player_manager->is_defeated() && !level->player_manager->is_on_exit()) {
 
         renderer->terminal_clear();
-        renderer->print_level(level);
-        renderer->render_map(*playground, *player_manager);
-        renderer->print_player_info(*player_manager);
+        renderer->print_level(level_n);
+        renderer->render_map(*level->playground, *level->player_manager);
+        renderer->print_player_info(*level->player_manager);
 
         int ch = getch();
 
@@ -72,19 +63,19 @@ void Game::game_loop() {
                 break;
 
             case up_key:
-                player_manager->move(up);
+                level->player_manager->move(up);
                 break;
             case left_key:
-                player_manager->move(left);
+                level->player_manager->move(left);
                 break;
             case down_key:
-                player_manager->move(down);
+                level->player_manager->move(down);
                 break;
             case right_key:
-                player_manager->move(right);
+                level->player_manager->move(right);
                 break;
             case wait_key:
-                player_manager->move(none);
+                level->player_manager->move(none);
                 break;
             default:
                 break;
@@ -92,11 +83,11 @@ void Game::game_loop() {
     }
     renderer->terminal_clear();
 
-    if (player_manager->is_defeated()){
+    if (level->player_manager->is_defeated()){
         saved_progress = false;
         defeat_menu();
     }
-    else if (player_manager->is_on_exit()){
+    else if (level->player_manager->is_on_exit()){
         saved_progress = false;
         victory_menu();
     }
@@ -112,7 +103,7 @@ void Game::main_menu() {
     Menu m_menu({
                     {"play", play_game},
                     {"settings", settings},
-                    {"exit", exit_game}
+                    {"exit", exit_game},
             });
 
     while(m_menu.is_active()){
@@ -124,10 +115,6 @@ void Game::main_menu() {
 
         switch (config->pressed_key(ch))
         {
-            case esc_key:
-                m_menu.close();
-                break;
-
             case up_key:
                 m_menu.option_up();
                 break;
@@ -188,7 +175,7 @@ void Game::pause_menu() {
                         game_is_running = false;
                         break;
                     case new_game:
-                        level = 0;
+                        level_n = 0;
                         saved_progress = false;
                         p_menu.close();
                         break;
@@ -209,13 +196,13 @@ void Game::pause_menu() {
 
 void Game::victory_menu() {
     Menu v_menu({
-                        {"next level", next_level},
+                        {"next level_n", next_level},
                         {"main menu", return_main_menu}
     });
 
     while(v_menu.is_active()) {
         renderer->terminal_clear();
-        renderer->victory_end(level);
+        renderer->victory_end(level_n);
         renderer->print_menu(v_menu);
 
         int ch = getch();
@@ -247,8 +234,8 @@ void Game::victory_menu() {
 }
 
 void Game::defeat_menu() {
-    int tmp = level;
-    level = 0;
+    int tmp = level_n;
+    level_n = 0;
 
     Menu d_menu({
                         {"try again", new_game},

@@ -2,10 +2,7 @@
 #define OOP_GAME_H
 
 #include "../entities/player/Player.h"
-#include "../entities/player/PlayerManager.h"
-
-#include "../world/map/Playground.h"
-#include "../world/map/MapGenerator.h"
+#include "Level.h"
 
 #include "../input_output/Renderer.h"
 #include "../input_output/Printer.h"
@@ -14,9 +11,7 @@
 class Game {
 private:
     Player* player;
-    PlayerManager* player_manager;
-    Playground* playground;
-    MapGenerator* map_generator;
+    Level* level;
 
     Renderer* renderer;
     Printer* printer;
@@ -27,9 +22,7 @@ private:
 
     bool saved_progress;
     bool game_is_running;
-    int level;
-
-    void create_new_level();
+    int level_n;
 
     void pause_menu();
     void victory_menu();
@@ -38,6 +31,7 @@ private:
 
     void game_loop();
 
+    void create_new_level();
     void new_size();
 
 public:
