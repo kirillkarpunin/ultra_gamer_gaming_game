@@ -6,7 +6,10 @@
 
 #include "../input_output/Renderer.h"
 #include "../input_output/Printer.h"
+
 #include "../input_output/Config.h"
+#include "../input_output/input_interface/ConsoleInput.h"
+#include "../input_output/input_interface/FileInput.h"
 
 class Game {
 private:
@@ -16,6 +19,7 @@ private:
     Renderer* renderer;
     Printer* printer;
 
+    IInput* input;
     Config* config;
 
     std::pair<int, int> playground_size;
@@ -23,6 +27,8 @@ private:
     bool saved_progress;
     bool game_is_running;
     int level_n;
+
+    void change_input();
 
     void pause_menu();
     void victory_menu();

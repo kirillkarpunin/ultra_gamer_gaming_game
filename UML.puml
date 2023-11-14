@@ -3,36 +3,43 @@
 
 
 class Game {
-    - Player* player;
-    - PlayerManager* player_manager;
-    - Playground* playground;
-    - MapGenerator* map_generator;
+    -Player* player;
+    -Level* level;
 
-    - Renderer* renderer;
-    - Printer* printer;
+    -Renderer* renderer;
+    -Printer* printer;
 
-    - Config* config;
+    -IInput* input;
+    -Config* config;
 
-    - std::pair<int, int> playground_size;
-    - bool saved_progress;
-    - bool game_is_running;
-    - int level;
+    -std::pair<int, int> playground_size;
 
-    -void create_new_level();
+    -bool saved_progress;
+    -bool game_is_running;
+    -int level_n;
+
+    -void change_input();
+
     -void pause_menu();
     -void victory_menu();
     -void defeat_menu();
     -void settings_menu();
+
     -void game_loop();
+
+    -void create_new_level();
     -void new_size();
 
-    + Game();
-    + void main_menu();
+    +Game();
+
+    +void main_menu();
+
     +~Game();
 }
 
 
 enum menu_options{
+ nothing
  play_game
  settings
  exit_game
@@ -43,42 +50,98 @@ enum menu_options{
  change_size
  }
 
- class Menu {
-     -std::vector<option> options;
-     -int curr_option;
-     -bool active;
+class Menu {
+    -std::vector<option> options;
+    -int curr_option;
+    -bool active;
 
-     +Menu(std::vector<option> options_);
-     +~Menu();
+    -void option_up();
+    -void option_down();
+    -menu_options choose_option() const;
 
-     +void option_up();
-     +void option_down();
+    +Menu(std::vector<option> options_);
+    +~Menu();
 
-     +int get_curr_option() const;
-     +std::vector<option>& get_options();
+    +int get_curr_pos() const;
+    +std::vector<option>& get_options();
 
-     +menu_options choose_option() const;
+    +menu_options update(keys key);
 
-     +bool is_active() const;
-     +void close();
+    +bool is_active() const;
+    +void close();
 
- }
+}
 
- class Renderer {
+menu_options--*Menu
 
-     +Renderer();
-     +~Renderer();
+class Level {
+    friend Game;
 
-     +void terminal_clear();
-     +void print_player_info(PlayerManager& player_manager);
-     +void render_map(Playground& playground, PlayerManager& player_manager);
-     +void print_menu(Menu& menu);
+    -PlayerManager* player_manager;
+    -Playground* playground;
+    -MapGenerator* map_generator;
 
-     +void print_level(int level);
+    +Level(Player* player);
+    +~Level();
 
-     +void defeat_end(int level);
-     +void victory_end(int level);
- }
+    +void new_level(Player* player, std::pair<int, int> playground_size);
+}
+
+enum keys{
+ non_key
+ left_key
+ right_key
+ up_key
+ down_key
+ wait_key
+ esc_key
+ invalid_key
+}
+
+class Config {
+    -std::map<int, keys> keymap;
+    -std::vector<std::string> keys_str;
+
+    -std::vector<int> ascii_codes_vec;
+    -std::vector<keys> keys_vec;
+
+    +Config(std::string path);
+    +~Config();
+
+    +keys pressed_key(int n);
+    +bool is_valid();
+}
+
+keys--*Config
+Level--*Game
+Menu--*Game
+Config--*Game
+
+interface IInput{
+    +virtual int scan() = 0;
+    +virtual ~IInput() = default;
+}
+
+class ConsoleInput{
+    +ConsoleInput();
+    +~ConsoleInput();
+
+    +int scan() final;
+}
+
+class FileInput{
+    -std::fstream file;
+
+    +FileInput(std::string path);
+    +~FileInput();
+
+    +int scan() final;
+}
+
+FileInput<|..IInput
+ConsoleInput<|..IInput
+
+IInput--*Game
 
 left to right direction
 

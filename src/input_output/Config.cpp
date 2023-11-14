@@ -43,6 +43,7 @@ Config::Config(std::string path){
             if (config_file.eof()) break;
         }
     }
+
 }
 
 bool Config::is_valid() {

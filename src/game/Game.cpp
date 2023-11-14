@@ -1,6 +1,4 @@
 #include "Game.h"
-#include "../../include/getch/getch.h"
-
 
 Game::Game() {
     player = new Player;
@@ -8,6 +6,7 @@ Game::Game() {
     printer = new Printer();
     renderer = new Renderer();
 
+    input = new FileInput("../commands.txt");
     config = new Config("../config.txt");
 
     level = new Level(player);
@@ -20,6 +19,7 @@ Game::Game() {
 
 Game::~Game() {
     delete config;
+    delete input;
 
     delete printer;
     delete renderer;
@@ -53,7 +53,10 @@ void Game::game_loop() {
         renderer->render_map(*level->playground, *level->player_manager);
         renderer->print_player_info(*level->player_manager);
 
-        int ch = getch();
+        int ch = input->scan();
+        if (ch == '$'){
+            change_input();
+        }
 
         switch (config->pressed_key(ch))
         {
@@ -111,7 +114,10 @@ void Game::main_menu() {
         printer->print_logo();
         renderer->print_menu(m_menu);
 
-        int ch = getch();
+        int ch = input->scan();
+        if (ch == '$'){
+            change_input();
+        }
 
         switch (m_menu.update(config->pressed_key(ch)))
         {
@@ -144,7 +150,10 @@ void Game::pause_menu() {
         printer->print_pause_label();
         renderer->print_menu(p_menu);
 
-        int ch = getch();
+        int ch = input->scan();
+        if (ch == '$'){
+            change_input();
+        }
 
         switch (p_menu.update(config->pressed_key(ch)))
         {
@@ -181,7 +190,10 @@ void Game::victory_menu() {
         renderer->victory_end(level_n);
         renderer->print_menu(v_menu);
 
-        int ch = getch();
+        int ch = input->scan();
+        if (ch == '$'){
+            change_input();
+        }
 
         switch (v_menu.update(config->pressed_key(ch)))
         {
@@ -214,7 +226,10 @@ void Game::defeat_menu() {
         renderer->defeat_end(tmp);
         renderer->print_menu(d_menu);
 
-        int ch = getch();
+        int ch = input->scan();
+        if (ch == '$'){
+            change_input();
+        }
 
         switch (d_menu.update(config->pressed_key(ch)))
         {
@@ -244,7 +259,10 @@ void Game::settings_menu() {
         printer->print_settings_label();
         renderer->print_menu(s_menu);
 
-        int ch = getch();
+        int ch = input->scan();
+        if (ch == '$'){
+            change_input();
+        }
 
         switch (s_menu.update(config->pressed_key(ch)))
         {
@@ -290,5 +308,10 @@ void Game::new_size() {
 
     playground_size.first = width;
     playground_size.second = height;
+}
+
+void Game::change_input() {
+    delete input;
+    input = new ConsoleInput();
 }
 

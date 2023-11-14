@@ -39,4 +39,9 @@ add_executable(oop src/Main.cpp
         src/input_output/Printer.h
         src/game/Level.cpp
         src/game/Level.h
+        src/input_output/input_interface/IInput.h
+        src/input_output/input_interface/FileInput.cpp
+        src/input_output/input_interface/FileInput.h
+        src/input_output/input_interface/ConsoleInput.cpp
+        src/input_output/input_interface/ConsoleInput.h
 )
