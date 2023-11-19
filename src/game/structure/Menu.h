@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "../input_output/Config.h"
+#include "../../input_output/Config.h"
 
 enum menu_options{nothing, play_game, settings, exit_game, return_main_menu, resume, next_level, new_game, change_size};
 using option = std::pair<std::string, menu_options>;

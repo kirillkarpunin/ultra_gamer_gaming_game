@@ -1,5 +1,5 @@
 #include "Level.h"
-#include "Game.h"
+#include "../Game.h"
 
 Level::Level(Player* player) {
     playground = new Playground;

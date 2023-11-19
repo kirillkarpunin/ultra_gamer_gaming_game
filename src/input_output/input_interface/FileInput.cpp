@@ -1,6 +1,8 @@
 #include "FileInput.h"
 
 int FileInput::scan() {
+    if (file.eof())
+        return '$';
     return file.get();
 }
 

@@ -31,14 +31,14 @@ add_executable(oop src/Main.cpp
         src/sup/circular_linked_list/Node.h
         src/game/Game.cpp
         src/game/Game.h
-        src/game/Menu.cpp
-        src/game/Menu.h
+        src/game/structure/Menu.cpp
+        src/game/structure/Menu.h
         src/input_output/Config.cpp
         src/input_output/Config.h
         src/input_output/Printer.cpp
         src/input_output/Printer.h
-        src/game/Level.cpp
-        src/game/Level.h
+        src/game/structure/Level.cpp
+        src/game/structure/Level.h
         src/input_output/input_interface/IInput.h
         src/input_output/input_interface/FileInput.cpp
         src/input_output/input_interface/FileInput.h

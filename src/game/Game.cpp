@@ -6,7 +6,8 @@ Game::Game() {
     printer = new Printer();
     renderer = new Renderer();
 
-    input = new FileInput("../commands.txt");
+//    input = new FileInput("../commands.txt");
+    input = new ConsoleInput();
     config = new Config("../config.txt");
 
     level = new Level(player);

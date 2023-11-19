@@ -6,7 +6,7 @@
 
 #include "../../include/termcolor/termcolor.hpp"
 #include "../entities/player/PlayerManager.h"
-#include "../game/Menu.h"
+#include "../game/structure/Menu.h"
 
 class Renderer {
 public:

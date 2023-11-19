@@ -2,7 +2,7 @@
 #define OOP_GAME_H
 
 #include "../entities/player/Player.h"
-#include "Level.h"
+#include "structure/Level.h"
 
 #include "../input_output/Renderer.h"
 #include "../input_output/Printer.h"
