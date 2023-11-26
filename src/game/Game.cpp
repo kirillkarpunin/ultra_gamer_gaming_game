@@ -91,6 +91,9 @@ void Game::main_menu() {
     menu_options res = menu_handler->run_menu(this, &mm);
 
     switch (res) {
+        case resume:
+            main_menu();
+            break;
         case exit_game:
             return;
         case settings:
@@ -160,6 +163,7 @@ void Game::defeat_menu() {
             dm.close();
             game_loop();
             break;
+        case resume:
         case return_main_menu:
             dm.close();
             main_menu();
@@ -181,6 +185,7 @@ void Game::victory_menu() {
             vm.close();
             game_loop();
             break;
+        case resume:
         case return_main_menu:
             main_menu();
             vm.close();
