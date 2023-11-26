@@ -2,29 +2,21 @@
 
 Game::Game() {
     player = new Player;
-
-//    input = new FileInput("../commands.txt");
-    input = new ConsoleInput();
-    config = new Config("../config.txt");
-
     level = new Level(player);
 
-    printer = new Printer();
+    menu_handler = new MenuHandler();
     renderer = new Renderer();
-    updater = new Updater(renderer, printer, level);
-    
+    input_handler = new InputHandler("../config.txt");
+
     playground_size = level->playground->get_size();
     game_is_running = true;
     saved_progress = false;
-    level_n = 0;
+    restart = false;
 }
 
 Game::~Game() {
-    delete config;
-    delete input;
-
-    delete updater;
-    delete printer;
+    delete input_handler;
+    delete menu_handler;
     delete renderer;
 
     delete level;
@@ -32,14 +24,14 @@ Game::~Game() {
 }
 
 void Game::create_new_level() {
-    if (level_n == 0) {
+    if (restart) {
         delete player;
         player = new Player;
+        restart = false;
     }
 
     level->new_level(player, playground_size);
 
-    level_n++;
     saved_progress = true;
     playground_size = level->playground->get_size();
 }
@@ -49,16 +41,13 @@ void Game::game_loop() {
     if (!saved_progress) create_new_level();
 
     game_is_running = true;
-    while(game_is_running && !updater->defeat() && !updater->victory()) {
+    while(game_is_running && !level->player_manager->is_defeated() && !level->player_manager->is_on_exit()) {
 
-        updater->check_movement();
+        renderer->terminal_clear();
+        renderer->render_map(*level->playground, *level->player_manager);
+        renderer->print_player_info(*level->player_manager);
 
-        int ch = input->scan();
-        if (ch == '$'){
-            change_input();
-        }
-
-        switch (config->pressed_key(ch))
+        switch (input_handler->get_key())
         {
             case esc_key:
                 pause_menu();
@@ -85,206 +74,124 @@ void Game::game_loop() {
         }
     }
 
-    if (updater->defeat()){
-        saved_progress = false;
+    if (level->player_manager->is_defeated()){
         defeat_menu();
     }
-    else if (updater->victory()){
-        saved_progress = false;
+    else if (level->player_manager->is_on_exit()){
         victory_menu();
     }
 }
 
 void Game::main_menu() {
 
-    if (!config->is_valid()){
-        printer->print_invalid_config();
+    if (!input_handler->is_valid())
         return;
-    }
 
-    Menu m_menu({
-                    {"play", play_game},
-                    {"settings", settings},
-                    {"exit", exit_game},
-            });
+    MainMenu mm;
+    menu_options res = menu_handler->run_menu(this, &mm);
 
-    while(m_menu.is_active()){
-        renderer->terminal_clear();
-        printer->print_logo();
-
-        updater->update_menu(&m_menu);
-
-        int ch = input->scan();
-        if (ch == '$'){
-            change_input();
-        }
-
-        switch (m_menu.update(config->pressed_key(ch)))
-        {
-            case exit_game:
-                m_menu.close();
-                break;
-            case play_game:
-                game_loop();
-                break;
-            case settings:
-                settings_menu();
-                break;
-            case nothing:
-            default:
-                break;
-        }
-    }
-}
-
-void Game::pause_menu() {
-    Menu p_menu({
-                        {"resume", resume},
-                        {"new game", new_game},
-                        {"settings", settings},
-                        {"return to main menu", return_main_menu},
-    });
-
-    while(p_menu.is_active()){
-        renderer->terminal_clear();
-        printer->print_pause_label();
-
-        updater->update_menu(&p_menu);
-
-        int ch = input->scan();
-        if (ch == '$'){
-            change_input();
-        }
-
-        switch (p_menu.update(config->pressed_key(ch)))
-        {
-            case return_main_menu:
-                p_menu.close();
-                game_is_running = false;
-                break;
-            case new_game:
-                level_n = 0;
-                saved_progress = false;
-                p_menu.close();
-                break;
-            case resume:
-                p_menu.close();
-                break;
-            case settings:
-                settings_menu();
-                break;
-            case nothing:
-            default:
-                break;
-        }
-    }
-}
-
-void Game::victory_menu() {
-    Menu v_menu({
-                        {"next level", next_level},
-                        {"main menu", return_main_menu}
-    });
-
-    while(v_menu.is_active()) {
-        renderer->terminal_clear();
-        renderer->victory_end(level_n);
-
-        updater->update_menu(&v_menu);
-
-        int ch = input->scan();
-        if (ch == '$'){
-            change_input();
-        }
-
-        switch (v_menu.update(config->pressed_key(ch)))
-        {
-            case return_main_menu:
-                v_menu.close();
-                game_is_running = false;
-                break;
-            case next_level:
-                v_menu.close();
-                game_loop();
-                break;
-            case nothing:
-            default:
-                break;
-        }
-    }
-}
-
-void Game::defeat_menu() {
-    int tmp = level_n;
-    level_n = 0;
-
-    Menu d_menu({
-                        {"try again", new_game},
-                        {"main menu", return_main_menu}
-                });
-
-    while(d_menu.is_active()) {
-        renderer->terminal_clear();
-        renderer->defeat_end(tmp);
-
-        updater->update_menu(&d_menu);
-
-        int ch = input->scan();
-        if (ch == '$'){
-            change_input();
-        }
-
-        switch (d_menu.update(config->pressed_key(ch)))
-        {
-            case return_main_menu:
-                d_menu.close();
-                game_is_running = false;
-                break;
-            case new_game:
-                d_menu.close();
-                game_loop();
-                break;
-            case nothing:
-            default:
-                break;
-        }
+    switch (res) {
+        case exit_game:
+            return;
+        case settings:
+            settings_menu();
+            break;
+        case play_game:
+            game_loop();
+            break;
+        default:
+            break;
     }
 }
 
 void Game::settings_menu() {
-    Menu s_menu({
-                        {"change field size", change_size},
-                        {"back", resume}
-    });
+    SettingsMenu sm;
+    menu_options res = menu_handler->run_menu(this, &sm);
 
-    while(s_menu.is_active()){
-        renderer->terminal_clear();
-        printer->print_settings_label();
+    switch (res) {
+        case resume:
+            main_menu();
+            break;
+        case change_size:
+            new_size();
+            settings_menu();
+            break;
+        default:
+            break;
+    }
+}
 
-        updater->update_menu(&s_menu);
+void Game::pause_menu() {
+    PauseMenu pm;
+    menu_options res = menu_handler->run_menu(this, &pm);
 
-        int ch = input->scan();
-        if (ch == '$'){
-            change_input();
-        }
-
-        switch (s_menu.update(config->pressed_key(ch)))
-        {
+    switch (res) {
+            case return_main_menu:
+                game_is_running = false;
+                pm.close();
+                main_menu();
+                break;
+            case new_game:
+                restart = true;
+                saved_progress = false;
+                pm.close();
+                break;
             case resume:
-                s_menu.close();
+                pm.close();
                 break;
-            case change_size:
-                new_size();
+            case settings:
+                settings_menu();
                 break;
-            case nothing:
             default:
                 break;
         }
+}
+
+void Game::defeat_menu() {
+    restart = true;
+    saved_progress = false;
+    game_is_running = false;
+
+    DefeatMenu dm;
+    menu_options res = menu_handler->run_menu(this, &dm);
+
+    switch (res) {
+        case new_game:
+            dm.close();
+            game_loop();
+            break;
+        case return_main_menu:
+            dm.close();
+            main_menu();
+            break;
+        default:
+            break;
+    }
+}
+
+void Game::victory_menu() {
+    saved_progress = false;
+    game_is_running = false;
+
+    VictoryMenu vm;
+    menu_options res = menu_handler->run_menu(this, &vm);
+
+    switch (res) {
+        case play_game:
+            vm.close();
+            game_loop();
+            break;
+        case return_main_menu:
+            main_menu();
+            vm.close();
+            break;
+        default:
+            break;
     }
 }
 
 void Game::new_size() {
-    renderer->terminal_clear();
+    system("clear");
 
     int height, width;
     std::string input;
@@ -313,9 +220,3 @@ void Game::new_size() {
     playground_size.first = width;
     playground_size.second = height;
 }
-
-void Game::change_input() {
-    delete input;
-    input = new ConsoleInput();
-}
-

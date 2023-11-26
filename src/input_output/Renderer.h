@@ -6,7 +6,7 @@
 
 #include "../../include/termcolor/termcolor.hpp"
 #include "../entities/player/PlayerManager.h"
-#include "../game/structure/Menu.h"
+#include "../game/menu/MenuHandler.h"
 
 class Renderer {
 public:
@@ -17,11 +17,6 @@ public:
     void print_player_info(PlayerManager& player_manager);
     void render_map(Playground& playground, PlayerManager& player_manager);
     void print_menu(Menu& menu);
-
-    void print_level(int level);
-
-    void defeat_end(int level);
-    void victory_end(int level);
 };
 
 

@@ -50,33 +50,33 @@ void Renderer::print_player_info(PlayerManager& player_manager) {
     std::cout << "Bombs:\t" << player_manager.get_bombs() << std::endl;
 }
 
-void Renderer::defeat_end(int level) {
-    std::cout << "\n"
-                 "\tDEFEAT\n"
-                 "\tYOU DIED ON " << level << " LEVEL\n\n";
-}
-
-void Renderer::victory_end(int level) {
-    std::cout << "\n"
-                 "\tVICTORY\n"
-                 "\tLEVEL " << level << " PASSED\n\n";
-}
-
 void Renderer::terminal_clear() {
     system("clear");
 }
 
 void Renderer::print_menu(Menu& menu) {
-    for (auto elem : menu.get_options()){
+    if (typeid(menu) == typeid(MainMenu))
+        std::cout << "\n\t| DUNGEON CRAWLER |\n\n";
+
+    else if (typeid(menu) == typeid(SettingsMenu))
+        std::cout << "\n\t| SETTINGS |\n\n";
+
+    else if (typeid(menu) == typeid(PauseMenu))
+        std::cout << "\n\t| PAUSE |\n\n";
+
+    else if (typeid(menu) == typeid(VictoryMenu))
+        std::cout << "\n\t| VICTORY |\n\n";
+
+    else if (typeid(menu) == typeid(DefeatMenu))
+        std::cout << "\n\t| DEFEAT |\n\n";
+
+    for (int i = 0; i < menu.options.size(); i++){
         std::cout << "\t";
-        if (elem == menu.get_options()[menu.get_curr_pos()]) std::cout << "> ";
-        std::cout << elem.first << std::endl;
+        if (i == menu.curr_option) std::cout << "> ";
+        std::cout << menu.options[i].first << std::endl;
     }
 }
 
-void Renderer::print_level(int level) {
-    std::cout << "\nLevel: " << level << std::endl;
-}
-
 Renderer::Renderer() = default;
+
 Renderer::~Renderer() = default;

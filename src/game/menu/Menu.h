@@ -7,32 +7,29 @@
 
 #include "../../input_output/Config.h"
 
-enum menu_options{nothing, play_game, settings, exit_game, return_main_menu, resume, next_level, new_game, change_size};
+class Renderer;
+enum menu_options{play_game, settings, exit_game, return_main_menu, resume, new_game, change_size};
 using option = std::pair<std::string, menu_options>;
 
-
 class Menu {
-private:
+protected:
     std::vector<option> options;
     int curr_option;
     bool active;
+
+    friend Renderer;
+public:
+    Menu();
+    ~Menu();
+
+    virtual void create_options() = 0;
 
     void option_up();
     void option_down();
     menu_options choose_option() const;
 
-public:
-    Menu(std::vector<option> options_);
-    ~Menu();
-
-    int get_curr_pos() const;
-    std::vector<option>& get_options();
-
-    menu_options update(keys key);
-
     bool is_active() const;
     void close();
-
 };
 
 

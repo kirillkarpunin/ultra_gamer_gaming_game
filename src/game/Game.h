@@ -1,51 +1,46 @@
 #ifndef OOP_GAME_H
 #define OOP_GAME_H
 
-#include "../entities/player/Player.h"
-#include "structure/Level.h"
+#include "level/Level.h"
+#include "../input_output/InputHandler.h"
 
-#include "updater/Updater.h"
+#include "../input_output/Renderer.h"
 
-#include "../input_output/Config.h"
-#include "../input_output/input_interface/ConsoleInput.h"
-#include "../input_output/input_interface/FileInput.h"
+#include "menu/MenuHandler.h"
 
 class Game {
 private:
+    friend MenuHandler;
+
     Player* player;
     Level* level;
 
-    Renderer* renderer;
-    Printer* printer;
-    Updater* updater;
+    MenuHandler* menu_handler;
+    InputHandler* input_handler;
 
-    IInput* input;
-    Config* config;
+    Renderer* renderer;
 
     std::pair<int, int> playground_size;
 
     bool saved_progress;
     bool game_is_running;
-    int level_n;
-
-    void change_input();
-
-    void pause_menu();
-    void victory_menu();
-    void defeat_menu();
-    void settings_menu();
-
-    void game_loop();
+    bool restart;
 
     void create_new_level();
+
     void new_size();
+
+    void defeat_menu();
+    void victory_menu();
+    void pause_menu();
+    void settings_menu();
+    void game_loop();
 
 public:
     Game();
+    ~Game();
 
     void main_menu();
-
-    ~Game();
 };
 
 

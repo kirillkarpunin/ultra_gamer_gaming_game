@@ -29,21 +29,31 @@ add_executable(oop src/Main.cpp
         src/sup/circular_linked_list/CircularLinkedList.h
         src/sup/circular_linked_list/Node.cpp
         src/sup/circular_linked_list/Node.h
-        src/game/Game.cpp
-        src/game/Game.h
-        src/game/structure/Menu.cpp
-        src/game/structure/Menu.h
         src/input_output/Config.cpp
         src/input_output/Config.h
-        src/input_output/Printer.cpp
-        src/input_output/Printer.h
-        src/game/structure/Level.cpp
-        src/game/structure/Level.h
         src/input_output/input_interface/IInput.h
         src/input_output/input_interface/FileInput.cpp
         src/input_output/input_interface/FileInput.h
         src/input_output/input_interface/ConsoleInput.cpp
         src/input_output/input_interface/ConsoleInput.h
-        src/game/updater/Updater.cpp
-        src/game/updater/Updater.h
+        src/game/Game.cpp
+        src/game/Game.h
+        src/game/menu/Menu.h
+        src/game/menu/MainMenu.cpp
+        src/game/menu/MainMenu.h
+        src/game/menu/PauseMenu.cpp
+        src/game/menu/PauseMenu.h
+        src/game/menu/Menu.cpp
+        src/game/menu/SettingsMenu.cpp
+        src/game/menu/SettingsMenu.h
+        src/game/level/Level.cpp
+        src/game/level/Level.h
+        src/game/menu/MenuHandler.cpp
+        src/game/menu/MenuHandler.h
+        src/input_output/InputHandler.cpp
+        src/input_output/InputHandler.h
+        src/game/menu/DefeatMenu.cpp
+        src/game/menu/DefeatMenu.h
+        src/game/menu/VictoryMenu.cpp
+        src/game/menu/VictoryMenu.h
 )
