@@ -7,10 +7,12 @@
 #include "../../world/map/MapGenerator.h"
 
 class Game;
+class Updater;
 
 class Level {
 private:
     friend Game;
+    friend Updater;
 
     PlayerManager* player_manager;
     Playground* playground;

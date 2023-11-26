@@ -44,4 +44,6 @@ add_executable(oop src/Main.cpp
         src/input_output/input_interface/FileInput.h
         src/input_output/input_interface/ConsoleInput.cpp
         src/input_output/input_interface/ConsoleInput.h
+        src/game/updater/Updater.cpp
+        src/game/updater/Updater.h
 )

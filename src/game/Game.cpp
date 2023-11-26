@@ -3,14 +3,15 @@
 Game::Game() {
     player = new Player;
 
-    printer = new Printer();
-    renderer = new Renderer();
-
 //    input = new FileInput("../commands.txt");
     input = new ConsoleInput();
     config = new Config("../config.txt");
 
     level = new Level(player);
+
+    printer = new Printer();
+    renderer = new Renderer();
+    updater = new Updater(renderer, printer, level);
     
     playground_size = level->playground->get_size();
     game_is_running = true;
@@ -22,6 +23,7 @@ Game::~Game() {
     delete config;
     delete input;
 
+    delete updater;
     delete printer;
     delete renderer;
 
@@ -47,12 +49,9 @@ void Game::game_loop() {
     if (!saved_progress) create_new_level();
 
     game_is_running = true;
-    while(game_is_running && !level->player_manager->is_defeated() && !level->player_manager->is_on_exit()) {
+    while(game_is_running && !updater->defeat() && !updater->victory()) {
 
-        renderer->terminal_clear();
-        renderer->print_level(level_n);
-        renderer->render_map(*level->playground, *level->player_manager);
-        renderer->print_player_info(*level->player_manager);
+        updater->check_movement();
 
         int ch = input->scan();
         if (ch == '$'){
@@ -85,13 +84,12 @@ void Game::game_loop() {
                 break;
         }
     }
-    renderer->terminal_clear();
 
-    if (level->player_manager->is_defeated()){
+    if (updater->defeat()){
         saved_progress = false;
         defeat_menu();
     }
-    else if (level->player_manager->is_on_exit()){
+    else if (updater->victory()){
         saved_progress = false;
         victory_menu();
     }
@@ -113,7 +111,8 @@ void Game::main_menu() {
     while(m_menu.is_active()){
         renderer->terminal_clear();
         printer->print_logo();
-        renderer->print_menu(m_menu);
+
+        updater->update_menu(&m_menu);
 
         int ch = input->scan();
         if (ch == '$'){
@@ -149,7 +148,8 @@ void Game::pause_menu() {
     while(p_menu.is_active()){
         renderer->terminal_clear();
         printer->print_pause_label();
-        renderer->print_menu(p_menu);
+
+        updater->update_menu(&p_menu);
 
         int ch = input->scan();
         if (ch == '$'){
@@ -189,7 +189,8 @@ void Game::victory_menu() {
     while(v_menu.is_active()) {
         renderer->terminal_clear();
         renderer->victory_end(level_n);
-        renderer->print_menu(v_menu);
+
+        updater->update_menu(&v_menu);
 
         int ch = input->scan();
         if (ch == '$'){
@@ -225,7 +226,8 @@ void Game::defeat_menu() {
     while(d_menu.is_active()) {
         renderer->terminal_clear();
         renderer->defeat_end(tmp);
-        renderer->print_menu(d_menu);
+
+        updater->update_menu(&d_menu);
 
         int ch = input->scan();
         if (ch == '$'){
@@ -258,7 +260,8 @@ void Game::settings_menu() {
     while(s_menu.is_active()){
         renderer->terminal_clear();
         printer->print_settings_label();
-        renderer->print_menu(s_menu);
+
+        updater->update_menu(&s_menu);
 
         int ch = input->scan();
         if (ch == '$'){

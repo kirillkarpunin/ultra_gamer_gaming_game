@@ -4,8 +4,7 @@
 #include "../entities/player/Player.h"
 #include "structure/Level.h"
 
-#include "../input_output/Renderer.h"
-#include "../input_output/Printer.h"
+#include "updater/Updater.h"
 
 #include "../input_output/Config.h"
 #include "../input_output/input_interface/ConsoleInput.h"
@@ -18,6 +17,7 @@ private:
 
     Renderer* renderer;
     Printer* printer;
+    Updater* updater;
 
     IInput* input;
     Config* config;

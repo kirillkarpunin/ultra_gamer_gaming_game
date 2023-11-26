@@ -11,36 +11,28 @@ void Renderer::render_map(Playground& playground, PlayerManager& player_manager)
                 std::cout << termcolor::magenta << "@ ";
             }
             else {
-                switch (playground.get_cell_type({j,i}))
-                {
-                    case empty: {
-                        std::cout << ". ";
-                        break;
-                    }
-                    case obstacle: {
-                        std::cout << "# ";
-                        break;
-                    }
-                    case trap: {
-                        std::cout << termcolor::red << "^ ";
-                        break;
-                    }
-                    case chest: {
-                        std::cout << termcolor::green << "$ ";
-                        break;
-                    }
-                    case entrance: {
-                        std::cout << termcolor::cyan << "o ";
-                        break;
-                    }
-                    case exit_: {
-                        std::cout << termcolor::cyan << "x ";
-                        break;
-                    }
-                    case portal: {
-                        std::cout << termcolor::yellow << "% ";
-                        break;
-                    }
+                IEvent* event = playground.get_cell_event({j,i});
+
+                if (playground.get_entrance_point() == (std::pair<int,int>){j,i}){
+                    std::cout << termcolor::cyan << "o ";
+                }
+                else if (playground.get_exit_point() == (std::pair<int,int>){j,i}){
+                    std::cout << termcolor::cyan << "x ";
+                }
+                else if (event == nullptr){
+                    std::cout << ". ";
+                }
+                else if (typeid(*event) == typeid(ExplodeWall)){
+                    std::cout << "# ";
+                }
+                else if (typeid(*event) == typeid(Trap)){
+                    std::cout << termcolor::red << "^ ";
+                }
+                else if (typeid(*event) == typeid(Chest)){
+                    std::cout << termcolor::green << "$ ";
+                }
+                else if (typeid(*event) == typeid(Teleport)){
+                    std::cout << termcolor::yellow << "% ";
                 }
             }
             termcolor::reset(std::cout);
