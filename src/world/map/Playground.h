@@ -3,6 +3,7 @@
 
 #include <utility>
 #include "Cell.h"
+#include "../../sup/observer/IObservable.h"
 #include "../../sup/circular_linked_list/CircularLinkedList.h"
 
 constexpr int min_map_width = 10;
@@ -13,7 +14,7 @@ constexpr int min_map_height = 10;
 constexpr int def_map_height = 14;
 constexpr int max_map_height = 32;
 
-class Playground {
+class Playground: public IObservable {
 private:
     std::pair<int, int> playground_size;
     Cell** map;
@@ -23,9 +24,10 @@ private:
 
     CircularLinkedList portals;
 
+    IObserver* observer;
 public:
     Playground(int width = def_map_width, int height = def_map_height);
-    ~Playground();
+    ~Playground() override;
 
     Playground(const Playground& playground);
     Playground& operator = (const Playground& playground);
@@ -43,6 +45,9 @@ public:
     std::pair<int, int> get_exit_point();
 
     CircularLinkedList& get_portals();
+
+    void add_observer(IObserver* observer_) override;
+    void notify() override;
 };
 
 

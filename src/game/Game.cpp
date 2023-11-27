@@ -5,8 +5,11 @@ Game::Game() {
     level = new Level(player);
 
     menu_handler = new MenuHandler();
-    renderer = new Renderer();
     input_handler = new InputHandler("../config.txt");
+
+    updater = new Updater();
+    level->player_manager->add_observer(updater);
+    menu_handler->set_observer(updater);
 
     playground_size = level->playground->get_size();
     game_is_running = true;
@@ -17,7 +20,7 @@ Game::Game() {
 Game::~Game() {
     delete input_handler;
     delete menu_handler;
-    delete renderer;
+    delete updater;
 
     delete level;
     delete player;
@@ -31,6 +34,7 @@ void Game::create_new_level() {
     }
 
     level->new_level(player, playground_size);
+    level->player_manager->add_observer(updater);
 
     saved_progress = true;
     playground_size = level->playground->get_size();
@@ -40,20 +44,13 @@ void Game::game_loop() {
 
     if (!saved_progress) create_new_level();
 
+    updater->update_game_frame(level->playground, level->player_manager);
+
     game_is_running = true;
     while(game_is_running && !level->player_manager->is_defeated() && !level->player_manager->is_on_exit()) {
 
-        renderer->terminal_clear();
-        renderer->render_map(*level->playground, *level->player_manager);
-        renderer->print_player_info(*level->player_manager);
-
         switch (input_handler->get_key())
         {
-            case esc_key:
-                pause_menu();
-                if (!saved_progress) create_new_level();
-                break;
-
             case up_key:
                 level->player_manager->move(up);
                 break;
@@ -66,12 +63,18 @@ void Game::game_loop() {
             case right_key:
                 level->player_manager->move(right);
                 break;
+            case esc_key:
+                pause_menu();
+                if (!saved_progress) create_new_level();
+                if (!game_is_running) break;
             case wait_key:
                 level->player_manager->move(none);
                 break;
             default:
                 break;
         }
+
+        updater->check_updates();
     }
 
     if (level->player_manager->is_defeated()){
@@ -88,51 +91,58 @@ void Game::main_menu() {
         return;
 
     MainMenu mm;
-    menu_options res = menu_handler->run_menu(this, &mm);
 
-    switch (res) {
-        case resume:
-            main_menu();
-            break;
-        case exit_game:
-            return;
-        case settings:
-            settings_menu();
-            break;
-        case play_game:
-            game_loop();
-            break;
-        default:
-            break;
+    while (mm.is_active())
+    {
+        menu_options res = menu_handler->run_menu(this, &mm);
+
+        switch (res) {
+            case exit_game:
+                mm.close();
+                return;
+            case settings:
+                settings_menu();
+                break;
+            case play_game:
+                game_loop();
+                break;
+            default:
+                break;
+        }
     }
 }
 
 void Game::settings_menu() {
     SettingsMenu sm;
-    menu_options res = menu_handler->run_menu(this, &sm);
 
-    switch (res) {
-        case resume:
-            main_menu();
-            break;
-        case change_size:
-            new_size();
-            settings_menu();
-            break;
-        default:
-            break;
+    while (sm.is_active())
+    {
+        menu_options res = menu_handler->run_menu(this, &sm);
+
+        switch (res) {
+            case resume:
+                sm.close();
+                break;
+            case change_size:
+                new_size();
+                break;
+            default:
+                break;
+        }
     }
 }
 
 void Game::pause_menu() {
     PauseMenu pm;
-    menu_options res = menu_handler->run_menu(this, &pm);
 
-    switch (res) {
+    while (pm.is_active())
+    {
+        menu_options res = menu_handler->run_menu(this, &pm);
+
+        switch (res) {
             case return_main_menu:
-                game_is_running = false;
                 pm.close();
-                main_menu();
+                game_is_running = false;
                 break;
             case new_game:
                 restart = true;
@@ -148,6 +158,7 @@ void Game::pause_menu() {
             default:
                 break;
         }
+    }
 }
 
 void Game::defeat_menu() {
@@ -156,20 +167,23 @@ void Game::defeat_menu() {
     game_is_running = false;
 
     DefeatMenu dm;
-    menu_options res = menu_handler->run_menu(this, &dm);
 
-    switch (res) {
-        case new_game:
-            dm.close();
-            game_loop();
-            break;
-        case resume:
-        case return_main_menu:
-            dm.close();
-            main_menu();
-            break;
-        default:
-            break;
+    while (dm.is_active())
+    {
+        menu_options res = menu_handler->run_menu(this, &dm);
+
+        switch (res) {
+            case new_game:
+                dm.close();
+                game_loop();
+                break;
+            case resume:
+            case return_main_menu:
+                dm.close();
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -178,20 +192,23 @@ void Game::victory_menu() {
     game_is_running = false;
 
     VictoryMenu vm;
-    menu_options res = menu_handler->run_menu(this, &vm);
 
-    switch (res) {
-        case play_game:
-            vm.close();
-            game_loop();
-            break;
-        case resume:
-        case return_main_menu:
-            main_menu();
-            vm.close();
-            break;
-        default:
-            break;
+    while (vm.is_active())
+    {
+        menu_options res = menu_handler->run_menu(this, &vm);
+
+        switch (res) {
+            case play_game:
+                vm.close();
+                game_loop();
+                break;
+            case resume:
+            case return_main_menu:
+                vm.close();
+                break;
+            default:
+                break;
+        }
     }
 }
 

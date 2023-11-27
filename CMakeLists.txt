@@ -56,4 +56,8 @@ add_executable(oop src/Main.cpp
         src/game/menu/DefeatMenu.h
         src/game/menu/VictoryMenu.cpp
         src/game/menu/VictoryMenu.h
+        src/sup/observer/IObservable.h
+        src/sup/observer/IObserver.h
+        src/game/updater/Updater.cpp
+        src/game/updater/Updater.h
 )

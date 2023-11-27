@@ -143,6 +143,7 @@ void PlayerManager::move(direction dir) {
     }
 
     perform_cell_event();
+    notify();
 }
 
 void PlayerManager::perform_cell_event() {
@@ -176,10 +177,20 @@ int PlayerManager::get_bombs() const {
     return player.get_bombs();
 }
 
-PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_) {}
+PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_), observer(
+        nullptr) {}
 
 bool PlayerManager::is_on_exit() const {
     return playground.get_cell_type(position) == exit_;
+}
+
+void PlayerManager::add_observer(IObserver *observer_) {
+    observer = observer_;
+}
+
+void PlayerManager::notify() {
+    observer->update(&playground);
+    observer->update(this);
 }
 
 PlayerManager::~PlayerManager() = default;

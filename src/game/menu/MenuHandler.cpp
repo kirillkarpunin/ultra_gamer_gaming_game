@@ -1,36 +1,37 @@
 #include "MenuHandler.h"
 #include "../Game.h"
 
-MenuHandler::MenuHandler() = default;
+MenuHandler::MenuHandler() {
+    observer = nullptr;
+}
 MenuHandler::~MenuHandler() = default;
 
 menu_options MenuHandler::run_menu(Game* game, Menu* menu) {
     menu->create_options();
+    menu->add_observer(observer);
 
-    game->renderer->terminal_clear();
-    game->renderer->print_menu(*menu);
+    game->updater->update_menu_frame(menu);
 
-    while (menu->is_active()){
-
+    while (true){
         switch (game->input_handler->get_key()) {
-            case esc_key:
-                menu->close();
-                return resume;
             case up_key:
                 menu->option_up();
-                game->renderer->terminal_clear();
-                game->renderer->print_menu(*menu);
                 break;
             case down_key:
                 menu->option_down();
-                game->renderer->terminal_clear();
-                game->renderer->print_menu(*menu);
                 break;
             case wait_key:
-                menu->close();
                 return menu->choose_option();
+            case esc_key:
+                return resume;
             default:
                 break;
         }
+
+        game->updater->check_updates();
     }
+}
+
+void MenuHandler::set_observer(IObserver *observer_) {
+    observer = observer_;
 }

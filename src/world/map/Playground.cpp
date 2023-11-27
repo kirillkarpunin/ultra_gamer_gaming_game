@@ -53,6 +53,8 @@ Playground::Playground(int width, int height) {
     for (int i = 0; i < playground_size.second; i++){
         map[i] = new Cell [playground_size.first];
     }
+
+    observer = nullptr;
 }
 
 Playground::~Playground() {
@@ -69,6 +71,7 @@ Playground::Playground(const Playground& playground) {
     exit_point = playground.exit_point;
 
     portals = playground.portals;
+    observer = playground.observer;
 
     map = new Cell* [playground_size.second];
     for (int i = 0; i < playground_size.second; i++){
@@ -89,6 +92,7 @@ Playground& Playground::operator = (const Playground& playground) {
     std::swap(entrance_point, tmp.entrance_point);
     std::swap(exit_point, tmp.exit_point);
     std::swap(map, tmp.map);
+    std::swap(observer, tmp.observer);
 
     return *this;
 }
@@ -98,6 +102,7 @@ Playground::Playground(Playground &&playground) {
     entrance_point = {0, 0};
     exit_point = {0, 0};
     map = nullptr;
+    observer = nullptr;
 
     std::swap(portals, playground.portals);
 
@@ -105,6 +110,7 @@ Playground::Playground(Playground &&playground) {
     std::swap(entrance_point, playground.entrance_point);
     std::swap(exit_point, playground.exit_point);
     std::swap(map, playground.map);
+    std::swap(observer, playground.observer);
 }
 
 Playground& Playground::operator = (Playground&& playground) {
@@ -116,6 +122,15 @@ Playground& Playground::operator = (Playground&& playground) {
         std::swap(entrance_point, playground.entrance_point);
         std::swap(exit_point, playground.exit_point);
         std::swap(map, playground.map);
+        std::swap(observer, playground.observer);
     }
     return *this;
+}
+
+void Playground::add_observer(IObserver *observer_) {
+    observer = observer_;
+}
+
+void Playground::notify() {
+    observer->update(this);
 }

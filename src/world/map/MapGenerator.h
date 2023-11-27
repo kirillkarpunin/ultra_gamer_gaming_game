@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "Playground.h"
 
-constexpr int obstacle_chance = 25;
+constexpr int obstacle_chance = 37;
 
 class MapGenerator {
 private:

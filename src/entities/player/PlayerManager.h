@@ -9,14 +9,16 @@
 
 enum direction {right, down, left, up, none};
 
-class PlayerManager {
+class PlayerManager: public IObservable{
 private:
     std::pair<int, int> position;
     Player& player;
     Playground& playground;
+
+    IObserver* observer;
 public:
     PlayerManager(Player& player_, Playground& playground_);
-    ~PlayerManager();
+    ~PlayerManager() override;
 
     void take_damage(int taken_damage);
     void heal(int health_healed);
@@ -46,6 +48,9 @@ public:
 
     std::pair<int, int>& get_position();
     void set_position(std::pair<int, int> position_);
+
+    void add_observer(IObserver* observer_) override;
+    void notify() override;
 };
 
 

@@ -1,148 +1,106 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+interface IObservable {
+    +virtual void add_observer(IObserver* observer) = 0;
 
-class Game {
-    -Player* player;
-    -Level* level;
-
-    -Renderer* renderer;
-    -Printer* printer;
-
-    -IInput* input;
-    -Config* config;
-
-    -std::pair<int, int> playground_size;
-
-    -bool saved_progress;
-    -bool game_is_running;
-    -int level_n;
-
-    -void change_input();
-
-    -void pause_menu();
-    -void victory_menu();
-    -void defeat_menu();
-    -void settings_menu();
-
-    -void game_loop();
-
-    -void create_new_level();
-    -void new_size();
-
-    +Game();
-
-    +void main_menu();
-
-    +~Game();
+    +virtual void notify() = 0;
+    +virtual ~IObservable() = default;
 }
 
+interface IObserver {
+    +virtual void update(IObservable* observable_element) = 0;
+}
 
-enum menu_options{
- nothing
- play_game
- settings
- exit_game
- return_main_menu
- resume
- next_level
- new_game
- change_size
- }
-
-class Menu {
-    -std::vector<option> options;
-    -int curr_option;
-    -bool active;
-
-    -void option_up();
-    -void option_down();
-    -menu_options choose_option() const;
-
-    +Menu(std::vector<option> options_);
+class Menu{
+    #std::vector<option> options;
+    #int curr_option;
+    #bool active;
+    #IObserver* observer;
+    #friend Renderer;
+    +Menu();
     +~Menu();
 
-    +int get_curr_pos() const;
-    +std::vector<option>& get_options();
+    +virtual void create_options() = 0;
 
-    +menu_options update(keys key);
-
+    +void option_up();
+    +void option_down();
+    +menu_options choose_option() const;
     +bool is_active() const;
     +void close();
 
+    +void add_observer(IObserver* observer_) override;
+    +void notify() override;
 }
 
-menu_options--*Menu
-
-class Level {
-    friend Game;
-
-    -PlayerManager* player_manager;
-    -Playground* playground;
-    -MapGenerator* map_generator;
-
-    +Level(Player* player);
-    +~Level();
-
-    +void new_level(Player* player, std::pair<int, int> playground_size);
+class DefeatMenu{
+    +void create_options() override;
 }
 
-enum keys{
- non_key
- left_key
- right_key
- up_key
- down_key
- wait_key
- esc_key
- invalid_key
+class MainMenu{
+    +void create_options() override;
 }
 
-class Config {
-    -std::map<int, keys> keymap;
-    -std::vector<std::string> keys_str;
-
-    -std::vector<int> ascii_codes_vec;
-    -std::vector<keys> keys_vec;
-
-    +Config(std::string path);
-    +~Config();
-
-    +keys pressed_key(int n);
-    +bool is_valid();
+class PauseMenu{
+    +void create_options() override;
 }
 
-keys--*Config
-Level--*Game
-Menu--*Game
-Config--*Game
-
-interface IInput{
-    +virtual int scan() = 0;
-    +virtual ~IInput() = default;
+class SettingsMenu{
+    + void create_options() override;
 }
 
-class ConsoleInput{
-    +ConsoleInput();
-    +~ConsoleInput();
-
-    +int scan() final;
+class VictoryMenu{
+    + void create_options() override;
 }
 
-class FileInput{
-    -std::fstream file;
+class Updater{
+    -Renderer* renderer;
+    -std::queue<IObservable*> update_q;
 
-    +FileInput(std::string path);
-    +~FileInput();
+    +Updater();
+    +~Updater();
 
-    +int scan() final;
+    +void update_game_frame(Playground* playground, PlayerManager* player_manager);
+    +void update_menu_frame(Menu* menu);
+
+    +void update(IObservable* observable_element) override;
+    +void check_updates();
 }
 
-FileInput<|..IInput
-ConsoleInput<|..IInput
+class PlayerManager{
+}
 
-IInput--*Game
 
-left to right direction
+class Playground{
+}
+
+top to bottom direction
+
+
+IObserver <|.. Updater
+Menu o-- IObserver
+IObservable <|.. Menu
+Menu <|-- PauseMenu
+Menu <|-- MainMenu
+Menu <|-- DefeatMenu
+Menu <|-- SettingsMenu
+Menu <|-- VictoryMenu
+PlayerManager ..|> IObservable
+Playground ..|> IObservable
+
+class Renderer {
+    +Renderer();
+    +~Renderer();
+
+    +void terminal_clear();
+    +void print_player_info(PlayerManager& player_manager);
+    +void render_map(Playground& playground, PlayerManager& player_manager);
+    +void print_menu(Menu& menu);
+}
+
+Renderer <.. Menu
+Renderer <.. PlayerManager
+Renderer <.. Playground
+
 
 @enduml

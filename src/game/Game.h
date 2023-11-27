@@ -5,6 +5,7 @@
 #include "../input_output/InputHandler.h"
 
 #include "../input_output/Renderer.h"
+#include "updater/Updater.h"
 
 #include "menu/MenuHandler.h"
 
@@ -18,7 +19,7 @@ private:
     MenuHandler* menu_handler;
     InputHandler* input_handler;
 
-    Renderer* renderer;
+    Updater* updater;
 
     std::pair<int, int> playground_size;
 

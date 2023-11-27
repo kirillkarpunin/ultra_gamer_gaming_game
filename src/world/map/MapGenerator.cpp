@@ -68,9 +68,9 @@ void MapGenerator::generate(Playground& playground){
 
     create_path(playground);
 
-    create_objects(playground, trap, (int)sqrt(playground.get_size().first * playground.get_size().second) / 4);
-    create_objects(playground, chest, (int)sqrt(playground.get_size().first * playground.get_size().second) / 8);
-    create_objects(playground, portal, (int)sqrt(playground.get_size().first * playground.get_size().second) / 6);
+    create_objects(playground, trap, (int)sqrt(playground.get_size().first * playground.get_size().second) / 2);
+    create_objects(playground, chest, (int)sqrt(playground.get_size().first * playground.get_size().second) / 4);
+    create_objects(playground, portal, (int)sqrt(playground.get_size().first * playground.get_size().second) / 3);
 }
 
 MapGenerator::MapGenerator() = default;

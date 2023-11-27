@@ -4,6 +4,7 @@
 #include "Menu.h"
 
 class VictoryMenu: public Menu {
+public:
     void create_options() override;
 };
 
