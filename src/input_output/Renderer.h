@@ -8,6 +8,8 @@
 #include "../entities/player/PlayerManager.h"
 #include "../game/menu/MenuHandler.h"
 
+constexpr bool fog = true;
+
 class Renderer {
 public:
     Renderer();

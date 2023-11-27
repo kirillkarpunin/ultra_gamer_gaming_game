@@ -16,6 +16,7 @@ private:
     Playground& playground;
 
     IObserver* observer;
+    int passed_levels;
 public:
     PlayerManager(Player& player_, Playground& playground_);
     ~PlayerManager() override;
@@ -51,6 +52,10 @@ public:
 
     void add_observer(IObserver* observer_) override;
     void notify() override;
+
+    void pass_level();
+    int get_passed_levels();
+    void reset_passed_levels();
 };
 
 

@@ -178,7 +178,7 @@ int PlayerManager::get_bombs() const {
 }
 
 PlayerManager::PlayerManager(Player &player_, Playground& playground_): position({0, 0}), player(player_), playground(playground_), observer(
-        nullptr) {}
+        nullptr), passed_levels(0) {}
 
 bool PlayerManager::is_on_exit() const {
     return playground.get_cell_type(position) == exit_;
@@ -191,6 +191,18 @@ void PlayerManager::add_observer(IObserver *observer_) {
 void PlayerManager::notify() {
     observer->update(&playground);
     observer->update(this);
+}
+
+void PlayerManager::pass_level() {
+    passed_levels += 1;
+}
+
+int PlayerManager::get_passed_levels() {
+    return passed_levels;
+}
+
+void PlayerManager::reset_passed_levels() {
+    passed_levels = 0;
 }
 
 PlayerManager::~PlayerManager() = default;

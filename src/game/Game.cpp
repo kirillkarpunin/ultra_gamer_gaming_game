@@ -31,6 +31,7 @@ void Game::create_new_level() {
         delete player;
         player = new Player;
         restart = false;
+        level->player_manager->reset_passed_levels();
     }
 
     level->new_level(player, playground_size);
@@ -41,7 +42,6 @@ void Game::create_new_level() {
 }
 
 void Game::game_loop() {
-
     if (!saved_progress) create_new_level();
 
     updater->update_game_frame(level->playground, level->player_manager);
@@ -78,9 +78,16 @@ void Game::game_loop() {
     }
 
     if (level->player_manager->is_defeated()){
+        restart = true;
+        saved_progress = false;
+        game_is_running = false;
+
         defeat_menu();
     }
     else if (level->player_manager->is_on_exit()){
+        saved_progress = false;
+        game_is_running = false;
+
         victory_menu();
     }
 }
@@ -162,10 +169,6 @@ void Game::pause_menu() {
 }
 
 void Game::defeat_menu() {
-    restart = true;
-    saved_progress = false;
-    game_is_running = false;
-
     DefeatMenu dm;
 
     while (dm.is_active())
@@ -188,9 +191,6 @@ void Game::defeat_menu() {
 }
 
 void Game::victory_menu() {
-    saved_progress = false;
-    game_is_running = false;
-
     VictoryMenu vm;
 
     while (vm.is_active())
