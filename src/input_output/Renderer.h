@@ -9,6 +9,7 @@
 #include "../game/menu/MenuHandler.h"
 
 constexpr bool fog = true;
+constexpr int fog_rad = 2;
 
 class Renderer {
 public:

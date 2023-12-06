@@ -13,7 +13,7 @@ void Renderer::render_map(Playground& playground, PlayerManager& player_manager)
                 std::cout << termcolor::magenta << "@ ";
             }
 
-            else if (fog && (abs(player_manager.get_position().first - j) > 3 || abs(player_manager.get_position().second - i) > 3 )){
+            else if (fog && (abs(player_manager.get_position().first - j) > fog_rad || abs(player_manager.get_position().second - i) > fog_rad )){
                 std::cout << termcolor::grey << "~ ";
             }
 
