@@ -10,7 +10,7 @@ private:
     std::fstream file;
 public:
     FileInput(std::string path);
-    ~FileInput();
+    ~FileInput() override;
 
     int scan() final;
 };

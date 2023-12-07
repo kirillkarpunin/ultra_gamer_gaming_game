@@ -14,6 +14,15 @@ InputHandler::~InputHandler() {
     delete config;
 }
 
+int InputHandler::scan_char() {
+    int ch = input->scan();
+    if (ch == '$')
+        change_input();
+    return ch;
+}
+keys InputHandler::get_key(int ch) {
+    return config->pressed_key(ch);
+}
 keys InputHandler::get_key() {
     int ch = input->scan();
     if (ch == '$')
@@ -30,5 +39,6 @@ void InputHandler::change_input() {
 bool InputHandler::is_valid() {
     return config->is_valid();
 }
+
 
 

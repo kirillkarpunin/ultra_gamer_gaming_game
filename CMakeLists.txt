@@ -60,4 +60,26 @@ add_executable(oop src/Main.cpp
         src/sup/observer/IObserver.h
         src/game/updater/Updater.cpp
         src/game/updater/Updater.h
+        src/log/appenders/Appender.h
+        src/log/messages/Message.h
+        src/log/appenders/ConsoleAppender.cpp
+        src/log/appenders/ConsoleAppender.h
+        src/log/appenders/FileAppender.cpp
+        src/log/appenders/FileAppender.h
+        src/log/appenders/Appender.cpp
+        src/log/messages/Message.cpp
+        src/log/Logger.cpp
+        src/log/Logger.h
+        src/log/messages/VictoryMessage.cpp
+        src/log/messages/VictoryMessage.h
+        src/log/messages/DefeatMessage.cpp
+        src/log/messages/DefeatMessage.h
+        src/log/messages/NewLevelMessage.cpp
+        src/log/messages/NewLevelMessage.h
+        src/log/messages/NewGameMessage.cpp
+        src/log/messages/NewGameMessage.h
+        src/log/messages/KeyWithCommandMessage.h
+        src/log/messages/KeyWithCommandMessage.cpp
+        src/log/messages/KeyWithoutCommandMessage.cpp
+        src/log/messages/KeyWithoutCommandMessage.h
 )

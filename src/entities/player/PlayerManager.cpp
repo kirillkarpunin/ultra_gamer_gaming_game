@@ -205,4 +205,21 @@ void PlayerManager::reset_passed_levels() {
     passed_levels = 0;
 }
 
+std::string PlayerManager::dir_to_str(direction d) {
+    switch (d)
+    {
+        case up:
+            return "up";
+        case down:
+            return "down";
+        case left:
+            return "left";
+        case right:
+            return "right";
+        case none:
+            return "wait";
+    }
+    return "";
+}
+
 PlayerManager::~PlayerManager() = default;

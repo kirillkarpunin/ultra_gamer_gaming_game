@@ -11,16 +11,23 @@ Game::Game() {
     level->player_manager->add_observer(updater);
     menu_handler->set_observer(updater);
 
+    logger = new Logger();
+    auto a = new FileAppender("../log.txt");
+    auto b = new ConsoleAppender;
+    logger->add_appender(a);
+    logger->add_appender(b);
+
     playground_size = level->playground->get_size();
     game_is_running = true;
     saved_progress = false;
-    restart = false;
+    restart = true;
 }
 
 Game::~Game() {
     delete input_handler;
     delete menu_handler;
     delete updater;
+    delete logger;
 
     delete level;
     delete player;
@@ -32,6 +39,9 @@ void Game::create_new_level() {
         player = new Player;
         restart = false;
         level->player_manager->reset_passed_levels();
+
+        NewGameMessage ngm;
+        logger->log(ngm);
     }
 
     level->new_level(player, playground_size);
@@ -39,6 +49,9 @@ void Game::create_new_level() {
 
     saved_progress = true;
     playground_size = level->playground->get_size();
+
+    NewLevelMessage nlm (playground_size, level->player_manager->get_position(), level->player_manager->get_passed_levels());
+    logger->log(nlm);
 }
 
 void Game::game_loop() {
@@ -49,35 +62,56 @@ void Game::game_loop() {
     game_is_running = true;
     while(game_is_running && !level->player_manager->is_defeated() && !level->player_manager->is_on_exit()) {
 
-        switch (input_handler->get_key())
+        std::string command;
+        int ch = input_handler->scan_char();
+
+        switch (input_handler->get_key(ch))
         {
             case up_key:
                 level->player_manager->move(up);
+                command = level->player_manager->dir_to_str(up);
                 break;
             case left_key:
                 level->player_manager->move(left);
+                command = level->player_manager->dir_to_str(left);
                 break;
             case down_key:
                 level->player_manager->move(down);
+                command = level->player_manager->dir_to_str(down);
                 break;
             case right_key:
                 level->player_manager->move(right);
+                command = level->player_manager->dir_to_str(right);
                 break;
             case esc_key:
                 pause_menu();
                 if (!saved_progress) create_new_level();
-                if (!game_is_running) break;
+                level->player_manager->move(none);
+                break;
             case wait_key:
                 level->player_manager->move(none);
+                command = level->player_manager->dir_to_str(none);
                 break;
             default:
                 break;
+        }
+
+        if (!command.empty()){
+            KeyWithCommandMessage kcs(ch, command);
+            logger->log(kcs);
+        }
+        else{
+            KeyWithoutCommandMessage kwcs(ch);
+            logger->log(kwcs);
         }
 
         updater->check_updates();
     }
 
     if (level->player_manager->is_defeated()){
+        DefeatMessage dm(level->player_manager->get_position());
+        logger->log(dm);
+
         restart = true;
         saved_progress = false;
         game_is_running = false;
@@ -85,6 +119,9 @@ void Game::game_loop() {
         defeat_menu();
     }
     else if (level->player_manager->is_on_exit()){
+        VictoryMessage vm(level->player_manager->get_health(), level->player_manager->get_armor(), level->player_manager->get_damage(), level->player_manager->get_bombs());
+        logger->log(vm);
+
         saved_progress = false;
         game_is_running = false;
 
@@ -94,8 +131,10 @@ void Game::game_loop() {
 
 void Game::main_menu() {
 
-    if (!input_handler->is_valid())
+    if (!input_handler->is_valid()){
+        std::cout << "Invalid config";
         return;
+    }
 
     MainMenu mm;
 

@@ -3,4 +3,4 @@
 115:down_key
 100:right_key
 32:wait_key
-27:esc_key
+122:esc_key

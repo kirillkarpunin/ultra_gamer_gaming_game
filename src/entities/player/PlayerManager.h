@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <algorithm>
+#include <string>
 
 #include "Player.h"
 #include "../../world/map/Playground.h"
@@ -56,6 +57,8 @@ public:
     void pass_level();
     int get_passed_levels();
     void reset_passed_levels();
+
+    std::string dir_to_str(direction d);
 };
 
 

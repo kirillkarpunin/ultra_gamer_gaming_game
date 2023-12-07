@@ -9,6 +9,8 @@
 
 #include "menu/MenuHandler.h"
 
+#include "../log/Logger.h"
+
 class Game {
 private:
     friend MenuHandler;
@@ -20,6 +22,8 @@ private:
     InputHandler* input_handler;
 
     Updater* updater;
+
+    Logger* logger;
 
     std::pair<int, int> playground_size;
 

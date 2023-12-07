@@ -16,7 +16,10 @@ public:
     ~InputHandler();
 
     bool is_valid();
+
+    int scan_char();
     keys get_key();
+    keys get_key(int ch);
 };
 
 
