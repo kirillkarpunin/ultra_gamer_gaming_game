@@ -1,8 +1,10 @@
 #include "DefeatMenu.h"
 
-void DefeatMenu::create_options() {
+void DefeatMenu::init() {
     options = {
             {"try again", new_game},
             {"main menu", return_main_menu}
     };
+
+    label = "\n\t| DEFEAT |\n\n";
 }

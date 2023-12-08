@@ -3,7 +3,7 @@
 int main() {
 
     Game game;
-    game.main_menu();
+    game.init();
 
     return 0;
 }

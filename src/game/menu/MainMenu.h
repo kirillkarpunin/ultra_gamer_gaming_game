@@ -5,7 +5,7 @@
 
 class MainMenu: public Menu{
 public:
-    void create_options() override;
+    void init() override;
 };
 
 

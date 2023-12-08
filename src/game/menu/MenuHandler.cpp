@@ -7,7 +7,7 @@ MenuHandler::MenuHandler() {
 MenuHandler::~MenuHandler() = default;
 
 menu_options MenuHandler::run_menu(Game* game, Menu* menu) {
-    menu->create_options();
+    menu->init();
     menu->add_observer(observer);
 
     game->updater->update_menu_frame(menu);

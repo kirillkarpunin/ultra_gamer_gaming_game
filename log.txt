@@ -1,91 +1,81 @@
-[07.12.2023 23:45:43] New game started
-[07.12.2023 23:45:43] Level 1 started - height:28 width:14 x:0 y:0
-[07.12.2023 23:45:43] Key pressed - key:'d' command:right
-[07.12.2023 23:45:45] New game started
-[07.12.2023 23:45:45] Level 1 started - height:28 width:14 x:0 y:0
-[07.12.2023 23:45:45] Pressed key - key:'z' command:none
-[07.12.2023 23:45:50] Key pressed - key:'s' command:down
-[07.12.2023 23:45:50] Key pressed - key:'d' command:right
-[07.12.2023 23:45:51] Key pressed - key:'d' command:right
-[07.12.2023 23:45:51] Key pressed - key:'s' command:down
-[07.12.2023 23:45:51] Key pressed - key:'s' command:down
-[07.12.2023 23:45:53] Key pressed - key:'w' command:up
-[07.12.2023 23:45:53] Key pressed - key:'d' command:right
-[07.12.2023 23:45:53] Key pressed - key:'w' command:up
-[07.12.2023 23:45:53] Key pressed - key:'d' command:right
-[07.12.2023 23:45:54] Key pressed - key:'w' command:up
-[07.12.2023 23:45:54] Key pressed - key:'d' command:right
-[07.12.2023 23:45:54] Key pressed - key:'d' command:right
-[07.12.2023 23:45:54] Key pressed - key:'s' command:down
-[07.12.2023 23:45:54] Key pressed - key:'s' command:down
-[07.12.2023 23:45:55] Key pressed - key:'s' command:down
-[07.12.2023 23:45:55] Key pressed - key:'a' command:left
-[07.12.2023 23:45:55] Key pressed - key:'s' command:down
-[07.12.2023 23:45:55] Key pressed - key:'s' command:down
-[07.12.2023 23:45:56] Key pressed - key:'s' command:down
-[07.12.2023 23:45:56] Key pressed - key:'s' command:down
-[07.12.2023 23:45:56] Key pressed - key:'s' command:down
-[07.12.2023 23:45:57] Key pressed - key:'d' command:right
-[07.12.2023 23:45:57] Key pressed - key:'s' command:down
-[07.12.2023 23:45:58] Key pressed - key:'d' command:right
-[07.12.2023 23:45:58] Key pressed - key:'d' command:right
-[07.12.2023 23:45:59] Key pressed - key:'d' command:right
-[07.12.2023 23:45:59] Key pressed - key:'d' command:right
-[07.12.2023 23:45:59] Key pressed - key:'d' command:right
-[07.12.2023 23:46:00] Key pressed - key:'d' command:right
-[07.12.2023 23:46:00] Key pressed - key:'d' command:right
-[07.12.2023 23:46:01] Key pressed - key:'d' command:right
-[07.12.2023 23:46:01] Key pressed - key:'d' command:right
-[07.12.2023 23:46:01] Key pressed - key:'d' command:right
-[07.12.2023 23:46:01] Key pressed - key:'s' command:down
-[07.12.2023 23:46:02] Key pressed - key:'d' command:right
-[07.12.2023 23:46:02] Key pressed - key:'s' command:down
-[07.12.2023 23:46:03] Key pressed - key:'a' command:left
-[07.12.2023 23:46:03] Key pressed - key:'w' command:up
-[07.12.2023 23:46:03] Key pressed - key:'d' command:right
-[07.12.2023 23:46:04] Key pressed - key:'w' command:up
-[07.12.2023 23:46:04] Key pressed - key:'w' command:up
-[07.12.2023 23:46:04] Key pressed - key:'w' command:up
-[07.12.2023 23:46:04] Key pressed - key:'w' command:up
-[07.12.2023 23:46:05] Key pressed - key:'s' command:down
-[07.12.2023 23:46:05] Key pressed - key:'a' command:left
-[07.12.2023 23:46:05] Key pressed - key:'s' command:down
-[07.12.2023 23:46:05] Key pressed - key:'a' command:left
-[07.12.2023 23:46:06] Key pressed - key:'a' command:left
-[07.12.2023 23:46:06] Key pressed - key:'a' command:left
-[07.12.2023 23:46:06] Key pressed - key:'w' command:up
-[07.12.2023 23:46:06] Key pressed - key:'a' command:left
-[07.12.2023 23:46:06] Key pressed - key:'w' command:up
-[07.12.2023 23:46:06] Key pressed - key:'w' command:up
-[07.12.2023 23:46:07] Key pressed - key:'a' command:left
-[07.12.2023 23:46:07] Key pressed - key:'w' command:up
-[07.12.2023 23:46:07] Key pressed - key:'w' command:up
-[07.12.2023 23:46:07] Key pressed - key:'d' command:right
-[07.12.2023 23:46:07] Key pressed - key:'d' command:right
-[07.12.2023 23:46:08] Key pressed - key:'d' command:right
-[07.12.2023 23:46:08] Key pressed - key:'w' command:up
-[07.12.2023 23:46:08] Key pressed - key:'a' command:left
-[07.12.2023 23:46:09] Key pressed - key:' ' command:wait
-[07.12.2023 23:46:09] Key pressed - key:'s' command:down
-[07.12.2023 23:46:10] Key pressed - key:'d' command:right
-[07.12.2023 23:46:10] Key pressed - key:'s' command:down
-[07.12.2023 23:46:10] Key pressed - key:'s' command:down
-[07.12.2023 23:46:11] Key pressed - key:'d' command:right
-[07.12.2023 23:46:11] Key pressed - key:'d' command:right
-[07.12.2023 23:46:11] Key pressed - key:'s' command:down
-[07.12.2023 23:46:11] Key pressed - key:'s' command:down
-[07.12.2023 23:46:11] Key pressed - key:'s' command:down
-[07.12.2023 23:46:12] Key pressed - key:'d' command:right
-[07.12.2023 23:46:12] Key pressed - key:'d' command:right
-[07.12.2023 23:46:12] Key pressed - key:'s' command:down
-[07.12.2023 23:46:12] Key pressed - key:'s' command:down
-[07.12.2023 23:46:13] Key pressed - key:'d' command:right
-[07.12.2023 23:46:13] Key pressed - key:'a' command:left
-[07.12.2023 23:46:13] Key pressed - key:'s' command:down
-[07.12.2023 23:46:13] Key pressed - key:'s' command:down
-[07.12.2023 23:46:13] Key pressed - key:'s' command:down
-[07.12.2023 23:46:14] Key pressed - key:'s' command:down
-[07.12.2023 23:46:14] Key pressed - key:'d' command:right
-[07.12.2023 23:46:14] Key pressed - key:'d' command:right
-[07.12.2023 23:46:14] Key pressed - key:'s' command:down
-[07.12.2023 23:46:14] Player won - health:9 armor:0 damage:5 bombs:0
+[08.12.2023 12:22:52] New game started
+[08.12.2023 12:22:52] Level 1 started - height:28 width:14 x:0 y:0
+[08.12.2023 12:22:58] Key pressed - key:'d' command:right
+[08.12.2023 12:22:58] Key pressed - key:'s' command:down
+[08.12.2023 12:22:59] Key pressed - key:'s' command:down
+[08.12.2023 12:22:59] Key pressed - key:'s' command:down
+[08.12.2023 12:23:00] Key pressed - key:'d' command:right
+[08.12.2023 12:23:01] Key pressed - key:'d' command:right
+[08.12.2023 12:23:02] Key pressed - key:'d' command:right
+[08.12.2023 12:23:06] Key pressed - key:'w' command:up
+[08.12.2023 12:23:06] Key pressed - key:'d' command:right
+[08.12.2023 12:23:07] Key pressed - key:'w' command:up
+[08.12.2023 12:23:07] Key pressed - key:'d' command:right
+[08.12.2023 12:23:08] Key pressed - key:'d' command:right
+[08.12.2023 12:23:09] Key pressed - key:'k' no command
+[08.12.2023 12:23:12] Key pressed - key:'s' command:down
+[08.12.2023 12:23:12] Key pressed - key:'d' command:right
+[08.12.2023 12:23:13] Key pressed - key:'s' command:down
+[08.12.2023 12:23:15] Key pressed - key:'p' no command
+[08.12.2023 12:23:15] Key pressed - key:'p' no command
+[08.12.2023 12:23:15] Key pressed - key:'p' no command
+[08.12.2023 12:23:18] Key pressed - key:'d' command:right
+[08.12.2023 12:23:19] Key pressed - key:'d' command:right
+[08.12.2023 12:23:19] Key pressed - key:'p' no command
+[08.12.2023 12:23:19] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:20] Key pressed - key:'p' no command
+[08.12.2023 12:23:21] Key pressed - key:'p' no command
+[08.12.2023 12:23:21] Key pressed - key:'p' no command
+[08.12.2023 12:23:21] Key pressed - key:'p' no command
+[08.12.2023 12:23:21] Key pressed - key:'p' no command
+[08.12.2023 12:23:21] Key pressed - key:'p' no command
+[08.12.2023 12:23:21] Key pressed - key:'p' no command
+[08.12.2023 12:23:22] Key pressed - key:'p' no command
+[08.12.2023 12:23:22] Key pressed - key:'p' no command
+[08.12.2023 12:23:22] Key pressed - key:'p' no command
+[08.12.2023 12:23:22] Key pressed - key:'p' no command
+[08.12.2023 12:23:22] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:23] Key pressed - key:'p' no command
+[08.12.2023 12:23:24] Key pressed - key:'p' no command
+[08.12.2023 12:23:24] Key pressed - key:'p' no command
+[08.12.2023 12:23:26] Key pressed - key:'s' command:down
+[08.12.2023 12:23:31] Key pressed - key:'s' command:down
+[08.12.2023 12:23:32] Key pressed - key:'s' command:down
+[08.12.2023 12:23:32] Key pressed - key:'s' command:down
+[08.12.2023 12:23:33] Key pressed - key:'s' command:down
+[08.12.2023 12:23:33] Key pressed - key:'a' command:left
+[08.12.2023 12:23:33] Key pressed - key:'a' command:left
+[08.12.2023 12:23:34] Key pressed - key:' ' command:wait
+[08.12.2023 12:23:35] Key pressed - key:'d' command:right
+[08.12.2023 12:23:35] Key pressed - key:'d' command:right
+[08.12.2023 12:23:35] Key pressed - key:'d' command:right
+[08.12.2023 12:23:35] Key pressed - key:'s' command:down
+[08.12.2023 12:23:36] Key pressed - key:'a' command:left
+[08.12.2023 12:23:36] Key pressed - key:'s' command:down
+[08.12.2023 12:23:36] Key pressed - key:'s' command:down
+[08.12.2023 12:23:36] Key pressed - key:'s' command:down
+[08.12.2023 12:23:37] Key pressed - key:'d' command:right
+[08.12.2023 12:23:37] Player won - health:9 armor:0 damage:5 bombs:0

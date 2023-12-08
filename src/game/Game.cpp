@@ -12,10 +12,6 @@ Game::Game() {
     menu_handler->set_observer(updater);
 
     logger = new Logger();
-    auto a = new FileAppender("../log.txt");
-    auto b = new ConsoleAppender;
-    logger->add_appender(a);
-    logger->add_appender(b);
 
     playground_size = level->playground->get_size();
     game_is_running = true;
@@ -31,6 +27,17 @@ Game::~Game() {
 
     delete level;
     delete player;
+}
+
+
+void Game::init() {
+    if (!input_handler->is_valid()){
+        std::cout << "Invalid config";
+        return;
+    }
+
+    logger_menu();
+    main_menu();
 }
 
 void Game::create_new_level() {
@@ -130,12 +137,6 @@ void Game::game_loop() {
 }
 
 void Game::main_menu() {
-
-    if (!input_handler->is_valid()){
-        std::cout << "Invalid config";
-        return;
-    }
-
     MainMenu mm;
 
     while (mm.is_active())
@@ -249,6 +250,44 @@ void Game::victory_menu() {
                 break;
         }
     }
+}
+
+void Game::logger_menu() {
+    LoggerMenu lm;
+
+    while (lm.is_active())
+    {
+        menu_options res = menu_handler->run_menu(this, &lm);
+
+        switch (res) {
+            case console:
+            {
+                lm.close();
+                auto console_appender = new ConsoleAppender;
+                logger->add_appender(console_appender);
+                break;
+            }
+            case console_file:
+            {
+                lm.close();
+                auto console_appender = new ConsoleAppender;
+                logger->add_appender(console_appender);
+                auto file_appender = new FileAppender("../log.txt");
+                logger->add_appender(file_appender);
+                break;
+            }
+            case file:
+            {
+                lm.close();
+                auto file_appender = new FileAppender("../log.txt");
+                logger->add_appender(file_appender);
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
 }
 
 void Game::new_size() {

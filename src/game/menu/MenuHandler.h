@@ -6,6 +6,7 @@
 #include "PauseMenu.h"
 #include "VictoryMenu.h"
 #include "DefeatMenu.h"
+#include "LoggerMenu.h"
 
 class Game;
 

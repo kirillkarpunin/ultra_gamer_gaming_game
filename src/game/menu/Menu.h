@@ -4,28 +4,31 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "../../sup/observer/IObservable.h"
 #include "../../input_output/Config.h"
 
 class Renderer;
-enum menu_options{play_game, settings, exit_game, return_main_menu, resume, new_game, change_size};
+enum menu_options{play_game, settings, exit_game, return_main_menu, resume, new_game, change_size, console, console_file, file};
 using option = std::pair<std::string, menu_options>;
 
 class Menu: public IObservable{
 protected:
     std::vector<option> options;
+    std::string label;
     int curr_option;
     bool active;
 
     IObserver* observer;
 
-    friend Renderer;
+    void print();
+
 public:
     Menu();
     ~Menu();
 
-    virtual void create_options() = 0;
+    virtual void init() = 0;
 
     void option_up();
     void option_down();
@@ -36,6 +39,8 @@ public:
 
     void add_observer(IObserver* observer_) override;
     void notify() override;
+
+    friend std::ostream& operator<< (std::ostream& stream, Menu& menu);
 };
 
 

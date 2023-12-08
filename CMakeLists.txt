@@ -82,4 +82,6 @@ add_executable(oop src/Main.cpp
         src/log/messages/KeyWithCommandMessage.cpp
         src/log/messages/KeyWithoutCommandMessage.cpp
         src/log/messages/KeyWithoutCommandMessage.h
+        src/game/menu/LoggerMenu.cpp
+        src/game/menu/LoggerMenu.h
 )

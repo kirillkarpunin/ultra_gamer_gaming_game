@@ -64,26 +64,8 @@ void Renderer::terminal_clear() {
 }
 
 void Renderer::print_menu(Menu& menu) {
-    if (typeid(menu) == typeid(MainMenu))
-        std::cout << "\n\t| DUNGEON CRAWLER |\n\n";
 
-    else if (typeid(menu) == typeid(SettingsMenu))
-        std::cout << "\n\t| SETTINGS |\n\n";
-
-    else if (typeid(menu) == typeid(PauseMenu))
-        std::cout << "\n\t| PAUSE |\n\n";
-
-    else if (typeid(menu) == typeid(VictoryMenu))
-        std::cout << "\n\t| VICTORY |\n\n";
-
-    else if (typeid(menu) == typeid(DefeatMenu))
-        std::cout << "\n\t| DEFEAT |\n\n";
-
-    for (int i = 0; i < menu.options.size(); i++){
-        std::cout << "\t";
-        if (i == menu.curr_option) std::cout << "> ";
-        std::cout << menu.options[i].first << std::endl;
-    }
+    std::cout << menu;
 }
 
 Renderer::Renderer() = default;

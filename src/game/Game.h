@@ -39,13 +39,16 @@ private:
     void victory_menu();
     void pause_menu();
     void settings_menu();
+    void logger_menu();
+    void main_menu();
+
     void game_loop();
 
 public:
     Game();
     ~Game();
 
-    void main_menu();
+    void init();
 };
 
 

@@ -39,4 +39,19 @@ void Menu::notify() {
     observer->update(this);
 }
 
+std::ostream &operator<<(std::ostream &stream, Menu &menu) {
+    menu.print();
+    return stream;
+}
+
+void Menu::print() {
+    std::cout << label;
+
+    for (int i = 0; i < options.size(); i++){
+        std::cout << "\t";
+        if (i == curr_option) std::cout << "> ";
+        std::cout << options[i].first << std::endl;
+    }
+}
+
 
