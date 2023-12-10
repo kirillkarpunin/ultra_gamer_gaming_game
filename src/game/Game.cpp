@@ -11,8 +11,6 @@ Game::Game() {
     level->player_manager->add_observer(updater);
     menu_handler->set_observer(updater);
 
-    logger = new Logger();
-
     playground_size = level->playground->get_size();
     game_is_running = true;
     saved_progress = false;
@@ -23,7 +21,6 @@ Game::~Game() {
     delete input_handler;
     delete menu_handler;
     delete updater;
-    delete logger;
 
     delete level;
     delete player;
@@ -47,8 +44,8 @@ void Game::create_new_level() {
         restart = false;
         level->player_manager->reset_passed_levels();
 
-        NewGameMessage ngm;
-        logger->log(ngm);
+        auto ngm = new NewGameMessage;
+        updater->add_message(ngm);
     }
 
     level->new_level(player, playground_size);
@@ -57,14 +54,15 @@ void Game::create_new_level() {
     saved_progress = true;
     playground_size = level->playground->get_size();
 
-    NewLevelMessage nlm (playground_size, level->player_manager->get_position(), level->player_manager->get_passed_levels());
-    logger->log(nlm);
+    auto nlm = new NewLevelMessage(playground_size, level->player_manager->get_position(), level->player_manager->get_passed_levels());
+    updater->add_message(nlm);
 }
 
 void Game::game_loop() {
     if (!saved_progress) create_new_level();
 
     updater->update_game_frame(level->playground, level->player_manager);
+    updater->update_logs();
 
     game_is_running = true;
     while(game_is_running && !level->player_manager->is_defeated() && !level->player_manager->is_on_exit()) {
@@ -104,20 +102,20 @@ void Game::game_loop() {
         }
 
         if (!command.empty()){
-            KeyWithCommandMessage kcs(ch, command);
-            logger->log(kcs);
+            auto kcs = new KeyWithCommandMessage(ch, command);
+            updater->add_message(kcs);
         }
         else{
-            KeyWithoutCommandMessage kwcs(ch);
-            logger->log(kwcs);
+            auto kwcs = new KeyWithoutCommandMessage(ch);
+            updater->add_message(kwcs);
         }
 
         updater->check_updates();
     }
 
     if (level->player_manager->is_defeated()){
-        DefeatMessage dm(level->player_manager->get_position());
-        logger->log(dm);
+        auto dm = new DefeatMessage(level->player_manager->get_position());
+        updater->add_message(dm);
 
         restart = true;
         saved_progress = false;
@@ -126,8 +124,8 @@ void Game::game_loop() {
         defeat_menu();
     }
     else if (level->player_manager->is_on_exit()){
-        VictoryMessage vm(level->player_manager->get_health(), level->player_manager->get_armor(), level->player_manager->get_damage(), level->player_manager->get_bombs());
-        logger->log(vm);
+        auto vm = new VictoryMessage(level->player_manager->get_health(), level->player_manager->get_armor(), level->player_manager->get_damage(), level->player_manager->get_bombs());
+        updater->add_message(vm);
 
         saved_progress = false;
         game_is_running = false;
@@ -264,23 +262,23 @@ void Game::logger_menu() {
             {
                 lm.close();
                 auto console_appender = new ConsoleAppender;
-                logger->add_appender(console_appender);
+                updater->add_to_logger(console_appender);
                 break;
             }
             case console_file:
             {
                 lm.close();
                 auto console_appender = new ConsoleAppender;
-                logger->add_appender(console_appender);
+                updater->add_to_logger(console_appender);
                 auto file_appender = new FileAppender("../log.txt");
-                logger->add_appender(file_appender);
+                updater->add_to_logger(file_appender);
                 break;
             }
             case file:
             {
                 lm.close();
                 auto file_appender = new FileAppender("../log.txt");
-                logger->add_appender(file_appender);
+                updater->add_to_logger(file_appender);
                 break;
             }
             default:

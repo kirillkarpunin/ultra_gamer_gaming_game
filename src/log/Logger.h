@@ -17,7 +17,7 @@ class Logger {
 private:
     std::vector<Appender*> appenders;
 public:
-    Logger() = default;
+    Logger();
     void add_appender(Appender* appender);
     void log(Message& message);
     ~Logger();

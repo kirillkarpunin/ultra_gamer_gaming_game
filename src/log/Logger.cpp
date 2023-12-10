@@ -10,6 +10,8 @@ Logger::~Logger() {
     }
 }
 
+Logger::Logger() = default;
+
 void Logger::log(Message& message) {
     for (auto elem : appenders){
         elem->append(message);

@@ -56,7 +56,7 @@ void Renderer::print_player_info(PlayerManager& player_manager) {
     std::cout << "Health:\t" << player_manager.get_health() << std::endl;
     std::cout << "Armor:\t" << player_manager.get_armor() << std::endl;
     std::cout << "Damage:\t" << player_manager.get_damage() << std::endl;
-    std::cout << "Bombs:\t" << player_manager.get_bombs() << std::endl;
+    std::cout << "Bombs:\t" << player_manager.get_bombs() << std::endl << std::endl;
 }
 
 void Renderer::terminal_clear() {

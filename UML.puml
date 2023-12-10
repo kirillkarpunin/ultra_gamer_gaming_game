@@ -1,106 +1,94 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-interface IObservable {
-    +virtual void add_observer(IObserver* observer) = 0;
-
-    +virtual void notify() = 0;
-    +virtual ~IObservable() = default;
+class Logger {
+    -std::vector<Appender*> appenders;
+    +Logger();
+    +void add_appender(Appender* appender);
+    +void log(Message& message);
+    +~Logger();
 }
 
-interface IObserver {
-    +virtual void update(IObservable* observable_element) = 0;
+class Appender {
+    #std::string time();
+    +virtual void append(Message& message) = 0;
+    +virtual ~Appender();
 }
 
-class Menu{
-    #std::vector<option> options;
-    #int curr_option;
-    #bool active;
-    #IObserver* observer;
-    #friend Renderer;
-    +Menu();
-    +~Menu();
-
-    +virtual void create_options() = 0;
-
-    +void option_up();
-    +void option_down();
-    +menu_options choose_option() const;
-    +bool is_active() const;
-    +void close();
-
-    +void add_observer(IObserver* observer_) override;
-    +void notify() override;
+class ConsoleAppender{
+    +ConsoleAppender();
+    +void append(Message &message) override;
 }
 
-class DefeatMenu{
-    +void create_options() override;
+class FileAppender{
+    -std::fstream file;
+    +FileAppender(std::string path);
+    +void append(Message &message) override;
 }
 
-class MainMenu{
-    +void create_options() override;
+FileAppender --|> Appender
+ConsoleAppender -up-|> Appender
+
+Appender --o Logger
+
+class Message{
+    #virtual void print(std::ostream& stream) = 0;
+    +friend std::ostream& operator<< (std::ostream& stream, Message& message);
+    +virtual ~Message();
 }
 
-class PauseMenu{
-    +void create_options() override;
+Message ..> Logger
+
+class VictoryMessage{
+    -int health;
+    -int armor;
+    -int damage;
+    -int bombs;
+    +VictoryMessage(int health, int armor, int damage, int bombs);
+    +void print(std::ostream& stream) override;
 }
 
-class SettingsMenu{
-    + void create_options() override;
+class DefeatMessage{
+    -std::pair<int, int> position;
+    +DefeatMessage(std::pair<int,int> position);
+    +void print(std::ostream& stream) override;
 }
 
-class VictoryMenu{
-    + void create_options() override;
+class NewGameMessage{
+    +NewGameMessage();
+    +void print(std::ostream& stream) override;
 }
 
-class Updater{
-    -Renderer* renderer;
-    -std::queue<IObservable*> update_q;
-
-    +Updater();
-    +~Updater();
-
-    +void update_game_frame(Playground* playground, PlayerManager* player_manager);
-    +void update_menu_frame(Menu* menu);
-
-    +void update(IObservable* observable_element) override;
-    +void check_updates();
+class NewLevelMessage{
+    -std::pair<int, int> size;
+    -std::pair<int, int> position;
+    -int level_n;
+    +NewLevelMessage(std::pair<int, int> size, std::pair<int, int> position, int level_n);
+    +void print(std::ostream& stream) override;
 }
 
-class PlayerManager{
+class KeyWithCommandMessage{
+    -int key;
+    -std::string command;
+    +KeyWithCommandMessage(int key, std::string command);
+    +void print(std::ostream& stream) override;
 }
 
-
-class Playground{
+class KeyWithoutCommandMessage{
+    -int key;
+    +KeyWithoutCommandMessage(int key);
+    +void print(std::ostream& stream) override;
 }
 
-top to bottom direction
+VictoryMessage -down-|> Message
+DefeatMessage -down-|> Message
+NewGameMessage -down-|> Message
+NewLevelMessage -up-|> Message
+KeyWithCommandMessage -left-|> Message
+KeyWithoutCommandMessage -up-|> Message
 
-
-IObserver <|.. Updater
-Menu o-- IObserver
-IObservable <|.. Menu
-Menu <|-- PauseMenu
-Menu <|-- MainMenu
-Menu <|-- DefeatMenu
-Menu <|-- SettingsMenu
-Menu <|-- VictoryMenu
-PlayerManager ..|> IObservable
-Playground ..|> IObservable
-
-class Renderer {
-    +Renderer();
-    +~Renderer();
-
-    +void terminal_clear();
-    +void print_player_info(PlayerManager& player_manager);
-    +void render_map(Playground& playground, PlayerManager& player_manager);
-    +void print_menu(Menu& menu);
+class LoggerMenu{
+    +void init() override;
 }
-
-Renderer <.. Menu
-Renderer <.. PlayerManager
-Renderer <.. Playground
-
 
 @enduml
